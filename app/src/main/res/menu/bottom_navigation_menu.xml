@@ -3,24 +3,24 @@
     <item
         android:id="@+id/home_nav_item"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/home_24px"
         android:title="Home" />
 
     <item
         android:id="@+id/search_nav_item"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/search_24px"
         android:title="Search"/>
 
     <item
         android:id="@+id/saved_nav_item"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/bookmark_24px"
         android:title="Saved"/>
 
     <item
         android:id="@+id/profile_nav_item"
         android:enabled="true"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/person_24px"
         android:title="Profile"/>
 </menu>

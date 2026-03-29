@@ -22,6 +22,7 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+    private static final HomeFragment homeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         adaptTabs();
-        setCurrentTabFragment(new ExampleFragment());
+        setCurrentTabFragment(homeFragment);
     }
 
     /**
@@ -45,38 +46,35 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         FrameLayout frameLayout = findViewById(R.id.tab_frame_layout);
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if (menuItem.getItemId() == R.id.home_nav_item) {
-                    setCurrentTabFragment(new ExampleFragment());
-                    Toast.makeText(MainActivity.this,
-                            "Home tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                else if (menuItem.getItemId() == R.id.search_nav_item) {
-                    setCurrentTabFragment(new ExampleFragment());
-                    Toast.makeText(MainActivity.this,
-                            "Search tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                else if (menuItem.getItemId() == R.id.saved_nav_item) {
-                    setCurrentTabFragment(new ExampleFragment());
-                    Toast.makeText(MainActivity.this,
-                            "Saved tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                else if (menuItem.getItemId() == R.id.profile_nav_item) {
-                    setCurrentTabFragment(new ExampleFragment());
-                    Toast.makeText(MainActivity.this,
-                            "Profile tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-
-                Toast.makeText(MainActivity.this, "Selected menu item not found.", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Selected menu item not found.");
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.home_nav_item) {
+                setCurrentTabFragment(homeFragment);
+                Toast.makeText(MainActivity.this,
+                        "Home tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+                return true;
             }
+            else if (menuItem.getItemId() == R.id.search_nav_item) {
+                setCurrentTabFragment(new ExampleFragment());
+                Toast.makeText(MainActivity.this,
+                        "Search tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.saved_nav_item) {
+                setCurrentTabFragment(new ExampleFragment());
+                Toast.makeText(MainActivity.this,
+                        "Saved tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.profile_nav_item) {
+                setCurrentTabFragment(new ExampleFragment());
+                Toast.makeText(MainActivity.this,
+                        "Profile tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            Toast.makeText(MainActivity.this, "Selected menu item not found.", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Selected menu item not found.");
+            return false;
         });
     }
 
