@@ -141,12 +141,21 @@
     <color name="md_theme_surfaceContainerHigh_highContrast">#D9D2DE</color>
     <color name="md_theme_surfaceContainerHighest_highContrast">#CBC4D0</color>
 
-    <style name="AppSearchCardShape" >
+    <color name="profile_outline">#33FFFFFF</color>
+
+    <!-- Purple blob at top of some fragments. -->
+    <style name="purpleBlob" >
         <item name="cardBackgroundColor">@color/md_theme_primary</item>
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">0dp</item>
         <item name="cornerSizeTopRight">0dp</item>
         <item name="cornerSizeBottomLeft">24dp</item>
         <item name="cornerSizeBottomRight">24dp</item>
+    </style>
+
+    <!-- Circle -->
+    <style name="circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

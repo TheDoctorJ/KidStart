@@ -9,8 +9,8 @@
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/AppSearchCardShape"
-        app:shapeAppearance="@style/AppSearchCardShape"
+        style="@style/purpleBlob"
+        app:shapeAppearance="@style/purpleBlob"
         >
 
         <GridLayout
