@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeFragment">
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AppSearchCardShape"
+        app:shapeAppearance="@style/AppSearchCardShape"
+        >
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="30dp">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:text="Keep your kids busy"
+                android:textColor="?attr/colorSurfaceContainer"
+                style="?attr/textAppearanceTitleLargeEmphasized"
+                />
+            <com.google.android.material.search.SearchBar
+                style="?attr/materialSearchBarStyle"
+                android:layout_width="match_parent"
+                android:layout_row="1"
+                android:layout_column="0"
+                app:placeholderText="Search">
+
+            </com.google.android.material.search.SearchBar>
+        </GridLayout>
+
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+    </androidx.core.widget.NestedScrollView>
