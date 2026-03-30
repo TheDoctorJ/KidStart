@@ -92,14 +92,29 @@
     </string>
 
     <!-- Profile -->
-    <string name="edit_profile_button">Edit Profile</string>
-    <string name="profile_preferences">Preferences</string>
+    <string name="edit_profile_text">Edit Profile</string>
+    <string name="profile_preferences_header">Preferences</string>
+    <string name="profile_interests_header">Interested Categories</string>
     <string name="placeholder_profile_name">First Last</string>
     <string name="placeholder_profile_email">name@email.com</string>
-    <string-array name="preferred_age_group_array">
+    <string-array name="age_array">
         <item name="1to3" tools:ignore="TypographyDashes">1-3 years (Toddler)</item>
         <item name="3to5" tools:ignore="TypographyDashes">3-5 years (Preschool)</item>
         <item name="5to8" tools:ignore="TypographyDashes">5-8 years (Early Elementary)</item>
         <item name="8to12" tools:ignore="TypographyDashes">8-12 Years (Late Elementary)</item>
     </string-array>
+    <string-array name="distance_array">
+        <item name="close" tools:ignore="TypographyDashes">0-10km</item>
+        <item name="medium" tools:ignore="TypographyDashes">0-20km</item>
+        <item name="far" tools:ignore="TypographyDashes">0-40km</item>
+        <item name="very far" tools:ignore="TypographyDashes">0-80km</item>
+    </string-array>
+    <string name="add_interest_text">Add Interest</string>
+    <string name="settings_header">Account and App Settings</string>
+    <string name="account_management_header">Account Management</string>
+    <string name="account_management_description">Change email, password...</string>
+
+    <!-- Interest Categories -->
+    <string name="placeholder_interest_title">Science</string>
+    <string name="placeholder_description">Robotics workshops, chemistry experiments, and coding clubs for kids.</string>
 </resources>

@@ -66,9 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else if (menuItem.getItemId() == R.id.profile_nav_item) {
-                setCurrentTabFragment(new ExampleFragment());
-                Toast.makeText(MainActivity.this,
-                        "Profile tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+                setCurrentTabFragment(new ProfileFragment());
                 return true;
             }
 
