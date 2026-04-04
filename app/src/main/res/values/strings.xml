@@ -94,6 +94,8 @@
     <!-- Profile -->
     <string name="edit_profile_text">Edit Profile</string>
     <string name="profile_preferences_header">Preferences</string>
+    <string name="age_preference_label">Age Group</string>
+    <string name="distance_preference_label">Distance</string>
     <string name="profile_interests_header">Interested Categories</string>
     <string name="placeholder_profile_name">First Last</string>
     <string name="placeholder_profile_email">name@email.com</string>
@@ -112,7 +114,12 @@
     <string name="add_interest_text">Add Interest</string>
     <string name="settings_header">Account and App Settings</string>
     <string name="account_management_header">Account Management</string>
-    <string name="account_management_description">Change email, password...</string>
+    <string name="account_management_description">Change email, phone, and password.</string>
+    <string name="notifications_header">Notifications</string>
+    <string name="notifications_description">Manage push alerts and emails.</string>
+    <string name="help_header">Help and Support</string>
+    <string name="help_description">FAQ and app guide.</string>
+    <string name="logout_label">Logout of Kidstart</string>
 
     <!-- Interest Categories -->
     <string name="placeholder_interest_title">Science</string>
