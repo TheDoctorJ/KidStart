@@ -1,13 +1,18 @@
 package ca.kidstart.kidstart;
 
+import android.content.ContentResolver;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,64 +23,79 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.circularreveal.cardview.CircularRevealCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class ProfileFragment extends Fragment {
+
+    private final int MAX_USERNAME_LENGTH = 30;
 
     private View fragmentView;
     private MaterialButton addInterestButton;
     private InterestCategory[] interestCategories;
     private boolean[] selectedInterests;
-    private LinearLayout accountManagementButton, notificationsButton, helpSupportButton, logoutButton;
+    private boolean editingProfile = false;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
+
+    // Edit profile stuff
+    private MaterialButton editProfileButton, applyEditProfileButton;
+    private CircularRevealCardView profileSummaryCard, editProfileCard;
+    private MaterialTextView userName;
+    private TextInputEditText userNameEdit;
+    private ShapeableImageView avatar, avatarEdit;
+    private BitmapDrawable committedAvatar;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+
         // Load saved stuff
         loadProfilePreferences();
         loadInterestedCategories();
 
-        // Add interest button
+        //
+        handleEdits();
+
+        // Buttons
         addInterestButton = fragmentView.findViewById(R.id.add_interest);
         addInterestButton.setOnClickListener(v -> { showAddInterestMenu(); });
-
-        // Settings buttons
-        accountManagementButton = fragmentView.findViewById(R.id.account_management_layout);
-        notificationsButton = fragmentView.findViewById(R.id.notifications_layout);
-        helpSupportButton = fragmentView.findViewById(R.id.help_and_support_layout);
-        logoutButton = fragmentView.findViewById(R.id.logout_layout);
-
-        accountManagementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open account settings
-            }
-        });
-
-        notificationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open notification settings
-            }
-        });
-
-        helpSupportButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open help and support
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Logout stuff
-            }
-        });
+        handleSettingsAndLogoutButtons();
 
         return fragmentView;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Don't touch
+        pickMedia =
+                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    // Callback is invoked after the user selects a media item or closes the
+                    // photo picker.
+                    if (uri != null) {
+                        ContentResolver resolver = getContext().getContentResolver();
+                        try {
+                            InputStream stream = resolver.openInputStream(uri);
+                            commitNewAvatar(new BitmapDrawable(getResources(), stream));
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    else {
+                        //
+                    }
+                });
     }
 
     /**
@@ -217,5 +237,111 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+    }
+
+    /**
+     * Gets setting and logout buttons and writes the onClickListener.
+     */
+    private void handleSettingsAndLogoutButtons() {
+        // Settings buttons
+        LinearLayout accountManagementButton = fragmentView.findViewById(R.id.account_management_layout);
+        LinearLayout notificationsButton = fragmentView.findViewById(R.id.notifications_layout);
+        LinearLayout helpSupportButton = fragmentView.findViewById(R.id.help_and_support_layout);
+        LinearLayout logoutButton = fragmentView.findViewById(R.id.logout_layout);
+
+        accountManagementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open account settings
+            }
+        });
+
+        notificationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open notification settings
+            }
+        });
+
+        helpSupportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open help and support
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Logout stuff
+            }
+        });
+    }
+
+    /**
+     * Shows the views to edit the profile and hides the regular profile summary.
+     */
+    private void openEditProfile() {
+        editingProfile = true;
+        profileSummaryCard.setVisibility(View.GONE);
+        editProfileCard.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Shows the regular profile summary and closes the edit mode. Saves any changes.
+     * To do: Save changes
+     */
+    private void closeEditProfile() {
+        editingProfile = false;
+        profileSummaryCard.setVisibility(View.VISIBLE);
+        editProfileCard.setVisibility(View.GONE);
+
+        String newUserName = userNameEdit.getText().toString();
+        if (newUserName.isEmpty()) {
+            Snackbar.make(fragmentView, getString(R.string.empty_username_snack), Snackbar.LENGTH_SHORT).show();
+            userNameEdit.setText(userName.getText().toString());
+        }
+        else {
+            userName.setText(newUserName);
+            // save newUserName
+        }
+
+        if (committedAvatar == null) {
+            // Do nothing
+        }
+        else {
+            avatar.setImageDrawable(committedAvatar);
+            // save committedAvatar
+            committedAvatar = null;
+        }
+    }
+
+    /**
+     * Gets all views for the profile and profile editing and writes listeners.
+     */
+    private void handleEdits() {
+        profileSummaryCard = fragmentView.findViewById(R.id.profile_summary);
+        editProfileCard = fragmentView.findViewById(R.id.profile_edit);
+        userName = fragmentView.findViewById(R.id.user_name);
+        userNameEdit = fragmentView.findViewById(R.id.user_name_edit);
+        avatar = fragmentView.findViewById(R.id.user_avatar);
+        avatarEdit = fragmentView.findViewById(R.id.user_avatar_edit);
+        editProfileButton = fragmentView.findViewById(R.id.edit_profile);
+        applyEditProfileButton = fragmentView.findViewById(R.id.apply_edit_profile);
+
+        editProfileButton.setOnClickListener(v -> { openEditProfile(); });
+        applyEditProfileButton.setOnClickListener(v -> { closeEditProfile(); });
+        avatarEdit.setOnClickListener(v -> pickMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build()));
+    }
+
+    /**
+     * Given a new drawable avatar, set it, but don't save until apply button is pressed.
+     * @param newAvatar new drawable avatar.
+     */
+    private void commitNewAvatar(BitmapDrawable newAvatar) {
+        avatarEdit.setImageDrawable(newAvatar);
+        committedAvatar = newAvatar;
     }
 }

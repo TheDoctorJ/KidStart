@@ -93,6 +93,7 @@
 
     <!-- Profile -->
     <string name="edit_profile_text">Edit Profile</string>
+    <string name="apply_edit_profile_text">Apply</string>
     <string name="profile_preferences_header">Preferences</string>
     <string name="age_preference_label">Age Group</string>
     <string name="distance_preference_label">Distance</string>
@@ -120,6 +121,7 @@
     <string name="help_header">Help and Support</string>
     <string name="help_description">FAQ and app guide.</string>
     <string name="logout_label">Logout of Kidstart</string>
+    <string name="empty_username_snack">Profile name not changed (empty.)</string>
 
     <!-- Interest Categories -->
     <string name="science_interest_title">Science</string>
