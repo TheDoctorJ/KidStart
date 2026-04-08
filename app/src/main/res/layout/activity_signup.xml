@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F7F6FB">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_media_previous"
+                android:contentDescription="back" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="120dp"
+                android:src="@mipmap/ic_launcher"
+                android:contentDescription="logo" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Join the Spark"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#1E1E1E" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Create an account to start your child's learning journey today."
+            android:textSize="16sp"
+            android:textColor="#6B7280" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Full Name"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#444444" />
+
+        <EditText
+            android:id="@+id/etSignupName"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="Enter your name"
+            android:padding="16dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Email Address"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#444444" />
+
+        <EditText
+            android:id="@+id/etSignupEmail"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="name@example.com"
+            android:inputType="textEmailAddress"
+            android:padding="16dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Password"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#444444" />
+
+        <EditText
+            android:id="@+id/etSignupPassword"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="Create a strong password"
+            android:inputType="textPassword"
+            android:padding="16dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Preferred Child Age"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#444444" />
+
+        <Spinner
+            android:id="@+id/spAgeGroup"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Location"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#444444" />
+
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="City, State"
+            android:padding="16dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Interested Categories"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#444444" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:background="#F2EEF9">
+
+            <CheckBox
+                android:id="@+id/cbEarlyLearning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Early Learning" />
+
+            <CheckBox
+                android:id="@+id/cbCreativeArts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Creative Arts" />
+
+            <CheckBox
+                android:id="@+id/cbOutdoorPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Outdoor Play" />
+
+            <CheckBox
+                android:id="@+id/cbStem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STEM" />
+
+            <CheckBox
+                android:id="@+id/cbMusic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Music" />
+
+            <CheckBox
+                android:id="@+id/cbStorytelling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Storytelling" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="#7C3AED"
+            android:text="Create Account"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? "
+                android:textColor="#6B7280"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvGoLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log in"
+                android:textColor="#7C3AED"
+                android:textStyle="bold"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
