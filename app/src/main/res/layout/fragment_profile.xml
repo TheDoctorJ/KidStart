@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- PROFILE SUMMARY -->
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/profile_summary"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/purpleBlob"
+            app:shapeAppearance="@style/purpleBlob" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/user_avatar"
+                    android:layout_width="@dimen/profile_avatar_size"
+                    android:layout_height="@dimen/profile_avatar_size"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/small_margin"
+                    android:padding="@dimen/profile_avatar_border_width"
+                    android:src="@mipmap/ic_launcher"
+                    app:strokeWidth="@dimen/profile_avatar_border_width"
+                    app:strokeColor="@color/profile_outline"
+                    app:shapeAppearanceOverlay="@style/circle" />
+                
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/small_margin"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    style="?attr/textAppearanceTitleLargeEmphasized"
+                    android:text="@string/placeholder_profile_name"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/user_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="?attr/colorSurfaceDim"
+                    style="?attr/textAppearanceBodyMediumEmphasized"
+                    android:text="@string/placeholder_profile_email"/>
+
+                <!-- This button is not adhering to the figma layout to save time. -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/edit_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/large_margin"
+                    android:text="@string/edit_profile_text"
+                    style="?attr/materialButtonElevatedStyle" />
+
+            </LinearLayout>
+
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <!-- Edit Profile -->
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/profile_edit"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/purpleBlob"
+            app:shapeAppearance="@style/purpleBlob" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/user_avatar_edit"
+                    android:foreground="@drawable/edit_pencil"
+                    android:foregroundGravity="right"
+                    android:layout_width="@dimen/profile_avatar_size"
+                    android:layout_height="@dimen/profile_avatar_size"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/small_margin"
+                    android:padding="@dimen/profile_avatar_border_width"
+                    android:src="@mipmap/ic_launcher"
+                    app:strokeWidth="@dimen/profile_avatar_border_width"
+                    app:strokeColor="@color/profile_outline"
+                    app:shapeAppearanceOverlay="@style/circle" />
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/user_name_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:inputType="text"
+                    android:maxLength="30"
+                    android:layout_margin="@dimen/small_margin"
+                    android:textColor="@color/md_theme_onPrimaryContainer"
+                    style="?attr/textAppearanceTitleLargeEmphasized"
+                    android:text="@string/placeholder_profile_name"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/apply_edit_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/large_margin"
+                    android:text="@string/apply_edit_profile_text"
+                    style="?attr/materialButtonElevatedStyle" />
+
+            </LinearLayout>
+
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <!-- Preferences Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_margin"
+            android:layout_marginLeft="@dimen/medium_margin"
+            android:layout_marginRight="@dimen/medium_margin"
+            android:layout_marginBottom="@dimen/small_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:src="@drawable/purple_capsule"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                style="?attr/textAppearanceTitleLargeEmphasized"
+                android:text="@string/profile_preferences_header" />
+        </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/large_margin"
+            style="?attr/textAppearanceTitleMedium"
+            android:text="@string/age_preference_label" />
+        <!-- Age -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/age_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/medium_margin"
+            android:layout_marginRight="@dimen/medium_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            style="?attr/textInputOutlinedExposedDropdownMenuStyle"
+            app:shapeAppearanceOverlay="@style/dropdown_shape">
+
+            <AutoCompleteTextView
+                android:id="@+id/age_autocomplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                app:simpleItems="@array/age_array" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/large_margin"
+            style="?attr/textAppearanceTitleMedium"
+            android:text="@string/distance_preference_label" />
+        <!-- Distance -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/distance_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/medium_margin"
+            android:layout_marginRight="@dimen/medium_margin"
+            style="?attr/textInputOutlinedExposedDropdownMenuStyle"
+            app:shapeAppearanceOverlay="@style/dropdown_shape">
+
+            <AutoCompleteTextView
+                android:id="@+id/distance_autocomplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                app:simpleItems="@array/distance_array" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Interests Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_margin"
+            android:layout_marginLeft="@dimen/medium_margin"
+            android:layout_marginRight="@dimen/medium_margin"
+            android:layout_marginBottom="@dimen/small_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:src="@drawable/blue_capsule"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                style="?attr/textAppearanceTitleLargeEmphasized"
+                android:text="@string/profile_interests_header" />
+        </LinearLayout>
+
+        <!-- Interests container -->
+        <LinearLayout
+            android:id="@+id/interests_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/small_margin"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <!-- Add Interest Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/large_margin"
+            android:text="@string/add_interest_text"
+            style="?attr/materialButtonStyle" />
+
+        <!-- Account and App Settings -->
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_margin"
+            style="?attr/materialCardViewOutlinedStyle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/large_margin">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/medium_margin"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:layout_marginEnd="@dimen/medium_margin"
+                    android:layout_marginBottom="@dimen/large_margin"
+                    style="?attr/textAppearanceTitleLargeEmphasized"
+                    android:text="@string/settings_header" />
+
+                <!-- Account Management -->
+                <LinearLayout
+                    android:id="@+id/account_management_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingHorizontal="@dimen/medium_margin"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/medium_margin"
+                        android:src="@drawable/settings_icon" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?attr/textAppearanceTitleMedium"
+                            android:text="@string/account_management_header"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?attr/textAppearanceBodyMedium"
+                            android:text="@string/account_management_description" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/medium_margin"
+                        android:scaleType="fitEnd"
+                        android:src="@drawable/chevron_right" />
+
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/small_margin"
+                    android:layout_marginHorizontal="@dimen/large_margin"/>
+
+                <!-- Notifications -->
+                <LinearLayout
+                    android:id="@+id/notifications_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingHorizontal="@dimen/medium_margin"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/medium_margin"
+                        android:src="@drawable/notification_icon" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?attr/textAppearanceTitleMedium"
+                            android:text="@string/notifications_header"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?attr/textAppearanceBodyMedium"
+                            android:text="@string/notifications_description" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/medium_margin"
+                        android:scaleType="fitEnd"
+                        android:src="@drawable/chevron_right" />
+
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/small_margin"
+                    android:layout_marginHorizontal="@dimen/large_margin"/>
+
+                <!-- Help and Support -->
+                <LinearLayout
+                    android:id="@+id/help_and_support_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingHorizontal="@dimen/medium_margin"
+                    android:layout_marginHorizontal="@dimen/medium_margin"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/medium_margin"
+                        android:src="@drawable/help_icon" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?attr/textAppearanceTitleMedium"
+                            android:text="@string/help_header"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?attr/textAppearanceBodyMedium"
+                            android:text="@string/help_description" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/medium_margin"
+                        android:scaleType="fitEnd"
+                        android:src="@drawable/chevron_right" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+        <!-- Logout -->
+        <LinearLayout
+            android:id="@+id/logout_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/extralarge_margin"
+            android:padding="@dimen/small_margin"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/log_out_icon"
+                android:layout_marginEnd="@dimen/small_margin"
+                tools:ignore="ContentDescription" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?attr/textAppearanceTitleMediumEmphasized"
+                android:textColor="#E05252"
+                android:text="@string/logout_label"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>
