@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="profile_outline">#33FFFFFF</color>
+
     <!-- Brand -->
     <color name="purple_primary">#8152E0</color>
     <color name="purple_primary_dark">#6F43CC</color>
