@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home_nav_item"
-        android:enabled="true"
-        android:icon="@drawable/home_24px"
+        android:id="@+id/nav_home"
+        android:icon="@android:drawable/ic_menu_view"
         android:title="Home" />
 
     <item
-        android:id="@+id/search_nav_item"
-        android:enabled="true"
-        android:icon="@drawable/search_24px"
-        android:title="Search"/>
+        android:id="@+id/nav_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search" />
 
     <item
-        android:id="@+id/saved_nav_item"
-        android:enabled="true"
-        android:icon="@drawable/bookmark_24px"
-        android:title="Saved"/>
+        android:id="@+id/nav_saved"
+        android:icon="@android:drawable/btn_star_big_off"
+        android:title="Saved" />
 
     <item
-        android:id="@+id/profile_nav_item"
-        android:enabled="true"
-        android:icon="@drawable/person_24px"
-        android:title="Profile"/>
+        android:id="@+id/nav_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Profile" />
+
 </menu>
