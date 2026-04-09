@@ -1,4 +1,4 @@
-package ca.kidstart.kidstart;
+package ca.kidstart.kidstart.fragments;
 
 import android.os.Bundle;
 
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.android.material.textview.MaterialTextView;
+
+import ca.kidstart.kidstart.R;
+import ca.kidstart.kidstart.model.InterestCategory;
 
 public class InterestCategoryFragment extends Fragment {
 

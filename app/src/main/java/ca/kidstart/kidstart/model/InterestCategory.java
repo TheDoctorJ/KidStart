@@ -1,4 +1,4 @@
-package ca.kidstart.kidstart;
+package ca.kidstart.kidstart.model;
 
 import android.graphics.drawable.Drawable;
 

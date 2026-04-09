@@ -114,12 +114,14 @@
     </string-array>
     <string name="add_interest_text">Add Interest</string>
     <string name="settings_header">Account and App Settings</string>
+    <!-- I apologize but none of these can be longer than like 20 characters -->
     <string name="account_management_header">Account Management</string>
-    <string name="account_management_description">Change email, phone, and password.</string>
+    <string name="account_management_description">Change email and password.</string>
     <string name="notifications_header">Notifications</string>
     <string name="notifications_description">Manage push alerts and emails.</string>
     <string name="help_header">Help and Support</string>
     <string name="help_description">FAQ and app guide.</string>
+    <!-- -->
     <string name="logout_label">Logout of Kidstart</string>
     <string name="empty_username_snack">Profile name not changed (empty.)</string>
 

@@ -2,27 +2,6 @@
 
     <color name="profile_outline">#33FFFFFF</color>
 
-    <!-- THESE NEED TO MOVE -->
-    <!-- Purple blob at top of some fragments. -->
-    <style name="purpleBlob" >
-        <item name="cardBackgroundColor">@color/md_theme_primary</item>
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">0dp</item>
-        <item name="cornerSizeTopRight">0dp</item>
-        <item name="cornerSizeBottomLeft">24dp</item>
-        <item name="cornerSizeBottomRight">24dp</item>
-    </style>
-
-    <style name="circle" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
-    </style>
-
-    <style name="dropdown_shape" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">35%</item>
-    </style>
-
     <!-- Brand -->
     <color name="purple_primary">#8152E0</color>
     <color name="purple_primary_dark">#6F43CC</color>
