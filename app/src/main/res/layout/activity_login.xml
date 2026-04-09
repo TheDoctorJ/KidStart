@@ -44,10 +44,19 @@
         />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/no_account"
+        android:id="@+id/no_account_subtitle"
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Sign up here." />
+        android:text="Don't have an account?"
+        />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sign_up"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/purple_primary"
+        android:text="Sign up here."
+        />
 
 </LinearLayout>
