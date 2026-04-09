@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "421312288168",
+    "project_id": "kidstart",
+    "storage_bucket": "kidstart.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421312288168:android:4d16f5835490e41975f99d",
+        "android_client_info": {
+          "package_name": "ca.kidstart.kidstart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyH3PAwT3haTwhUy0ns00dVnbmT7J9tQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
