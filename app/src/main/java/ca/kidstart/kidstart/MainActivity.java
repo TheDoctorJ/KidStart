@@ -1,92 +1,64 @@
 package ca.kidstart.kidstart;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+
+import ca.kidstart.kidstart.fragments.DiscoverFragment;
+import ca.kidstart.kidstart.fragments.ProfileFragment;
+import ca.kidstart.kidstart.fragments.SavedFragment;
+import ca.kidstart.kidstart.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "MainActivity";
-    private static final HomeFragment homeFragment = new HomeFragment();
+    private MaterialToolbar topBar;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        adaptTabs();
-        setCurrentTabFragment(homeFragment);
-    }
+        topBar = findViewById(R.id.top_bar);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-    /**
-     * Adapt tab items on the BottomNavigationView to change tab.
-     */
-    private void adaptTabs() {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        FrameLayout frameLayout = findViewById(R.id.tab_frame_layout);
+        if (savedInstanceState == null) {
+            loadFragment(new DiscoverFragment(), "KidStart");
+        }
 
-        bottomNavigationView.setOnItemSelectedListener(menuItem -> {
-            if (menuItem.getItemId() == R.id.home_nav_item) {
-                setCurrentTabFragment(homeFragment);
-                Toast.makeText(MainActivity.this,
-                        "Home tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                loadFragment(new DiscoverFragment(), "KidStart");
                 return true;
-            }
-            else if (menuItem.getItemId() == R.id.search_nav_item) {
-                setCurrentTabFragment(new ExampleFragment());
-                Toast.makeText(MainActivity.this,
-                        "Search tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.nav_search) {
+                loadFragment(new SearchFragment(), "Search");
                 return true;
-            }
-            else if (menuItem.getItemId() == R.id.saved_nav_item) {
-                setCurrentTabFragment(new ExampleFragment());
-                Toast.makeText(MainActivity.this,
-                        "Saved tab is not implemented. Example tab is shown.", Toast.LENGTH_SHORT).show();
+            } else if (id == R.id.nav_saved) {
+                loadFragment(new SavedFragment(), "Saved");
                 return true;
-            }
-            else if (menuItem.getItemId() == R.id.profile_nav_item) {
-                setCurrentTabFragment(new ProfileFragment());
+            } else if (id == R.id.nav_profile) {
+                loadFragment(new ProfileFragment(), "Profile");
                 return true;
             }
 
-            Toast.makeText(MainActivity.this, "Selected menu item not found.", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Selected menu item not found.");
             return false;
         });
     }
 
-    /**
-     * Changes the FrameLayout contents.
-     * @param tabFragment is the tab to change to.
-     */
-    private void setCurrentTabFragment(Fragment tabFragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    private void loadFragment(Fragment fragment, String title) {
+        if (topBar != null) {
+            topBar.setTitle(title);
+        }
 
-        fragmentTransaction.replace(R.id.tab_frame_layout, tabFragment);
-        fragmentTransaction.addToBackStack(null);
-
-        fragmentTransaction.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.tab_frame_layout, fragment)
+                .commit();
     }
 }
