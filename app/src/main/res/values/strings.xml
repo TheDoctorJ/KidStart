@@ -129,18 +129,4 @@
     <!-- -->
     <string name="logout_label">Logout of Kidstart</string>
     <string name="empty_username_snack">Profile name not changed (empty.)</string>
-
-    <!-- Interest Categories -->
-    <string name="science_interest_title">Science</string>
-    <string name="science_interest_description">Chemistry, biology, and physics camps and clubs.</string>
-    <string name="art_interest_title">Art</string>
-    <string name="art_interest_description">Painting, drawing, and sculpting camps and classes.</string>
-    <string name="computers_interest_title">Computers</string>
-    <string name="computers_interest_description">Coding and robotics camps and classes.</string>
-    <string name="music_interest_title">Music</string>
-    <string name="music_interest_description">Classical and modern music camps and classes.</string>
-    <string name="sports_interest_title">Sports</string>
-    <string name="sports_interest_description">Indoor and outdoor camps and teams.</string>
-    <string name="reading_interest_title">Reading</string>
-    <string name="reading_interest_description">Book clubs and library events.</string>
 </resources>

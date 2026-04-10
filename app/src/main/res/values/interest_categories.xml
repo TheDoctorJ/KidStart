@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ensure that these are in the same order as defined in InterestCategories.Categories-->
+    <array name="interest_category_drawables">
+        <item>@drawable/science_interest</item>
+        <item>@drawable/science_interest</item>
+        <item>@drawable/science_interest</item>
+        <item>@drawable/science_interest</item>
+        <item>@drawable/science_interest</item>
+        <item>@drawable/science_interest</item>
+        <item>@drawable/science_interest</item>
+    </array>
+    <array name="interest_category_names">
+        <item>Science</item>
+        <item>Art</item>
+        <item>Computers</item>
+        <item>Music</item>
+        <item>Sports</item>
+        <item>Reading</item>
+        <item>Daycare</item>
+    </array>
+    <array name="interest_category_descriptions">
+        <item>Chemistry, biology, and physics camps and clubs.</item>
+        <item>Chemistry, biology, and physics camps and clubs.</item>
+        <item>Coding and robotics camps and classes.</item>
+        <item>Classical and modern music camps and classes.</item>
+        <item>Indoor and outdoor camps and teams.</item>
+        <item>Book clubs and library events.</item>
+        <item>Fun activities for toddlers.</item>
+    </array>
+</resources>

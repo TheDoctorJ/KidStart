@@ -8,6 +8,7 @@
 
     <!-- Header -->
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/activities_found_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.Material3.TitleLarge.Emphasized"
@@ -49,6 +50,7 @@
     </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
+        android:id="@+id/saved_activities_recycler"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

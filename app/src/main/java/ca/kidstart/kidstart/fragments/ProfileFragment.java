@@ -8,7 +8,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,6 +32,7 @@ import com.google.android.material.textview.MaterialTextView;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import ca.kidstart.kidstart.MainActivity;
 import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.model.InterestCategory;
 
@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
 
     private View fragmentView;
     private MaterialButton addInterestButton;
-    private InterestCategory[] interestCategories;
     private boolean[] selectedInterests;
     private boolean editingProfile = false;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
@@ -142,23 +141,8 @@ public class ProfileFragment extends Fragment {
      * To do: Load saved categories.
      */
     private void loadInterestedCategories() {
-        interestCategories = new InterestCategory[]{
-                new InterestCategory(ResourcesCompat.getDrawable(getResources(), R.drawable.science_interest, getContext().getTheme()),
-                        getString(R.string.science_interest_title), getString(R.string.science_interest_description)),
-                new InterestCategory(ResourcesCompat.getDrawable(getResources(), R.drawable.science_interest, getContext().getTheme()),
-                        getString(R.string.computers_interest_title), getString(R.string.computers_interest_description)),
-                new InterestCategory(ResourcesCompat.getDrawable(getResources(), R.drawable.science_interest, getContext().getTheme()),
-                        getString(R.string.art_interest_title), getString(R.string.art_interest_description)),
-                new InterestCategory(ResourcesCompat.getDrawable(getResources(), R.drawable.science_interest, getContext().getTheme()),
-                        getString(R.string.music_interest_title), getString(R.string.music_interest_description)),
-                new InterestCategory(ResourcesCompat.getDrawable(getResources(), R.drawable.science_interest, getContext().getTheme()),
-                        getString(R.string.sports_interest_title), getString(R.string.sports_interest_description)),
-                new InterestCategory(ResourcesCompat.getDrawable(getResources(), R.drawable.science_interest, getContext().getTheme()),
-                        getString(R.string.reading_interest_title), getString(R.string.reading_interest_description))
-        };
-
         // if (savedCategories == null) => set default
-        selectedInterests = new boolean[interestCategories.length];
+        selectedInterests = new boolean[MainActivity.interestCategories.length];
         for (int i = 0; i < selectedInterests.length; i++) selectedInterests[i] = false;
         // else => load saved categories
     }
@@ -169,12 +153,12 @@ public class ProfileFragment extends Fragment {
     private void showAddInterestMenu() {
 
         PopupMenu popup = new PopupMenu(getContext(), addInterestButton);
-        int[] menuItemIds = new int[interestCategories.length];
+        int[] menuItemIds = new int[MainActivity.interestCategories.length];
 
         // Create a correspondence between interests and menu item ids.
-        for (int i = 0; i < interestCategories.length; i++) {
+        for (int i = 0; i < MainActivity.interestCategories.length; i++) {
             if (!selectedInterests[i])
-                menuItemIds[i] = popup.getMenu().add(0, i, 0, interestCategories[i].getName()).getItemId();
+                menuItemIds[i] = popup.getMenu().add(0, i, 0, MainActivity.interestCategories[i].getName()).getItemId();
             else
                 menuItemIds[i] = -1;
         }
@@ -185,7 +169,7 @@ public class ProfileFragment extends Fragment {
                 // find corresponding interest from item id.
                 for (int i = 0; i < menuItemIds.length; i++) {
                     if (menuItemIds[i] == item.getItemId()) {
-                        addNewInterest(interestCategories[i]);
+                        addNewInterest(MainActivity.interestCategories[i]);
                         selectedInterests[i] = true;
                         return true;
                     }
@@ -234,8 +218,8 @@ public class ProfileFragment extends Fragment {
                 fragmentTransaction.remove(interestCategoryFragment);
                 container.removeView(frame);
                 // Allow interest to be selected again.
-                for (int i = 0; i < interestCategories.length; i++) {
-                    if (interestCategories[i] == interest)
+                for (int i = 0; i < MainActivity.interestCategories.length; i++) {
+                    if (MainActivity.interestCategories[i] == interest)
                         selectedInterests[i] = false;
                 }
             }

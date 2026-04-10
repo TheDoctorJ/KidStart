@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.kidstart.kidstart.MainActivity;
 import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.adapter.ActivityAdapter;
 import ca.kidstart.kidstart.adapter.ChipAdapter;
@@ -24,6 +25,7 @@ import ca.kidstart.kidstart.model.ActivityItem;
 import ca.kidstart.kidstart.model.ChipItem;
 import ca.kidstart.kidstart.model.FeaturedSlide;
 import ca.kidstart.kidstart.adapter.HorizontalActivityAdapter;
+import ca.kidstart.kidstart.model.InterestCategory;
 
 public class DiscoverFragment extends Fragment {
 
@@ -114,7 +116,7 @@ public class DiscoverFragment extends Fragment {
         List<ActivityItem> items = new ArrayList<>();
         items.add(new ActivityItem(
                 R.drawable.sample_1,
-                "SCIENCE",
+                MainActivity.interestCategories[InterestCategory.Categories.Science.ordinal()],
                 "Junior Scientists Summer",
                 "Downtown Science Center",
                 "7-12 yrs",
@@ -124,7 +126,7 @@ public class DiscoverFragment extends Fragment {
         ));
         items.add(new ActivityItem(
                 R.drawable.sample_1,
-                "DAYCARE",
+                MainActivity.interestCategories[InterestCategory.Categories.Daycare.ordinal()],
                 "Little Learners Daycare",
                 "Maple Street Studio",
                 "0-3 yrs",
@@ -134,7 +136,7 @@ public class DiscoverFragment extends Fragment {
         ));
         items.add(new ActivityItem(
                 R.drawable.sample_1,
-                "EDUCATION",
+                MainActivity.interestCategories[InterestCategory.Categories.Reading.ordinal()],
                 "Storytime at the Library",
                 "Central Public Library",
                 "3-6 yrs",
@@ -152,10 +154,10 @@ public class DiscoverFragment extends Fragment {
 
     private void setupTrending() {
         List<ActivityItem> items = new ArrayList<>();
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "SCIENCE", "Junior Scientists", "Downtown Science Center", "7-12 yrs", "$250/wk", "4.8", "2.3 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "DAYCARE", "Little Learners Daycare", "Maple Street Studio", "0-3 yrs", "$1,200/mo", "4.9", "1.5 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "EDUCATION", "Storytime at the Library", "Central Public Library", "3-6 yrs", "Free", "4.7", "2.0 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "TECHNOLOGY", "Robotics Workshop", "Innovation Hub", "10-14 yrs", "$45", "5.0", "3.1 mi"));
+        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Science.ordinal()], "Junior Scientists", "Downtown Science Center", "7-12 yrs", "$250/wk", "4.8", "2.3 mi"));
+        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Daycare.ordinal()], "Little Learners Daycare", "Maple Street Studio", "0-3 yrs", "$1,200/mo", "4.9", "1.5 mi"));
+        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Reading.ordinal()], "Storytime at the Library", "Central Public Library", "3-6 yrs", "Free", "4.7", "2.0 mi"));
+        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Computers.ordinal()], "Robotics Workshop", "Innovation Hub", "10-14 yrs", "$45", "5.0", "3.1 mi"));
 
         ActivityAdapter adapter = new ActivityAdapter(items);
         recyclerTrending.setLayoutManager(new LinearLayoutManager(requireContext()));

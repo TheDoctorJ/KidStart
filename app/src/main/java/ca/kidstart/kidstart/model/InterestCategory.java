@@ -2,10 +2,21 @@ package ca.kidstart.kidstart.model;
 
 import android.graphics.drawable.Drawable;
 
+import ca.kidstart.kidstart.R;
+
 public class InterestCategory {
     private Drawable icon;
     private String name;
     private String description;
+    public enum Categories {
+        Science,
+        Art,
+        Computers,
+        Music,
+        Sports,
+        Reading,
+        Daycare
+    }
 
     public InterestCategory(Drawable newIcon, String newName, String newDescription) {
         this.icon = newIcon;

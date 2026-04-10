@@ -2,7 +2,7 @@ package ca.kidstart.kidstart.model;
 
 public class ActivityItem {
     private final int imageResId;
-    private final String category;
+    private final InterestCategory category;
     private final String title;
     private final String location;
     private final String ageRange;
@@ -10,7 +10,7 @@ public class ActivityItem {
     private final String rating;
     private final String distance;
 
-    public ActivityItem(int imageResId, String category, String title, String location,
+    public ActivityItem(int imageResId, InterestCategory category, String title, String location,
                         String ageRange, String price, String rating, String distance) {
         this.imageResId = imageResId;
         this.category = category;
@@ -26,7 +26,7 @@ public class ActivityItem {
         return imageResId;
     }
 
-    public String getCategory() {
+    public InterestCategory getCategory() {
         return category;
     }
 

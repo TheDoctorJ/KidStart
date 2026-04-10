@@ -35,7 +35,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         ActivityItem item = activityList.get(position);
 
         holder.ivImage.setImageResource(item.getImageResId());
-        holder.tvCategory.setText(item.getCategory());
+        holder.tvCategory.setText(item.getCategory().getName());
         holder.tvTitle.setText(item.getTitle());
         holder.tvLocation.setText(item.getLocation());
         holder.tvAge.setText(item.getAgeRange());
