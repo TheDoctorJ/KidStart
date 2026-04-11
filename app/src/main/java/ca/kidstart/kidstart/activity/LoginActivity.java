@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        // 이미 로그인 되어 있으면 바로 메인으로
+        // if already logined, go to main
         if (sessionManager.isLoggedIn()) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
