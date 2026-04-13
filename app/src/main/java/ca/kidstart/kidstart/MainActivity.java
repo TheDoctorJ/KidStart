@@ -1,8 +1,13 @@
 package ca.kidstart.kidstart;
 
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.content.res.TypedArrayUtils;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -12,8 +17,11 @@ import ca.kidstart.kidstart.fragments.DiscoverFragment;
 import ca.kidstart.kidstart.fragments.ProfileFragment;
 import ca.kidstart.kidstart.fragments.SavedFragment;
 import ca.kidstart.kidstart.fragments.SearchFragment;
+import ca.kidstart.kidstart.model.InterestCategory;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static InterestCategory[] interestCategories;
 
     private MaterialToolbar topBar;
     private BottomNavigationView bottomNavigationView;
@@ -49,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
             return false;
         });
+
+        makeInterestCategories();
     }
 
     private void loadFragment(Fragment fragment, String title) {
@@ -60,5 +70,21 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.tab_frame_layout, fragment)
                 .commit();
+    }
+
+    /**
+     * Creates the public static field that contains all InterestCategories available.
+     * See interest_categories.xml and InterestCategory.java.
+     * This may not be the best place to store InterestCategories.
+     * **/
+    private void makeInterestCategories() {
+        int categoryCount = InterestCategory.Categories.values().length;
+        interestCategories = new InterestCategory[categoryCount];
+        for (int i = 0; i < categoryCount; i++) {
+            interestCategories[i] = new InterestCategory(
+                    ResourcesCompat.getDrawable(getResources(), getResources().obtainTypedArray(R.array.interest_category_drawables).getResourceId(i, 0), getTheme()),
+                    getResources().getStringArray(R.array.interest_category_names)[i],
+                    getResources().getStringArray(R.array.interest_category_descriptions)[i]);
+        }
     }
 }

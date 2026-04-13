@@ -2,7 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="20dp">
+
+    <!-- Header -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/activities_found_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.Material3.TitleLarge.Emphasized"
+        android:text="@string/activities_found" />
+
+    <!-- Filters -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filter_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:scrollbars="none"
+        android:layout_marginVertical="@dimen/medium_margin" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/saved_activities_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/large_margin"
+        app:strokeColor="@color/stroke"
+        app:cardBackgroundColor="@color/surface_soft">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:padding="@dimen/medium_margin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/calendar_icon"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/calendar_sync"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginHorizontal="@dimen/medium_margin"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:text="@string/sync_button"/>
+
+
+        </LinearLayout>
+
+
+
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+
+
+
 
 </LinearLayout>

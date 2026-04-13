@@ -1,17 +1,24 @@
 package ca.kidstart.kidstart.model;
 
+import java.util.Calendar;
+
 public class ActivityItem {
     private final int imageResId;
-    private final String category;
+    private final InterestCategory category;
     private final String title;
     private final String location;
     private final String ageRange;
     private final String price;
     private final String rating;
     private final String distance;
+    private final Calendar startTime;
+    private final Calendar endTime;
 
-    public ActivityItem(int imageResId, String category, String title, String location,
-                        String ageRange, String price, String rating, String distance) {
+    public static final String FREE_PRICE = "Free";
+
+    public ActivityItem(int imageResId, InterestCategory category, String title, String location,
+                        String ageRange, String price, String rating, String distance,
+                        Calendar startTime, Calendar endTime) {
         this.imageResId = imageResId;
         this.category = category;
         this.title = title;
@@ -20,13 +27,15 @@ public class ActivityItem {
         this.price = price;
         this.rating = rating;
         this.distance = distance;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getImageResId() {
         return imageResId;
     }
 
-    public String getCategory() {
+    public InterestCategory getCategory() {
         return category;
     }
 
@@ -53,4 +62,6 @@ public class ActivityItem {
     public String getDistance() {
         return distance;
     }
+    public Calendar getStartTime() { return startTime; }
+    public Calendar getEndTime() { return endTime; }
 }
