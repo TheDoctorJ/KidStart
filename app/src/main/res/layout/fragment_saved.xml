@@ -21,30 +21,9 @@
         android:overScrollMode="ifContentScrolls">
 
         <com.google.android.material.button.MaterialButtonGroup
+            android:id="@+id/filter_button_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:textColor="@color/text_primary"
-                android:text="@string/all_activities"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:textColor="@color/text_primary"
-                android:text="@string/all_activities"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:textColor="@color/text_primary"
-                android:text="@string/all_activities"/>
-
         </com.google.android.material.button.MaterialButtonGroup>
 
     </HorizontalScrollView>

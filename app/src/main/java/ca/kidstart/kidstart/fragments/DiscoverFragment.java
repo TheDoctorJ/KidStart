@@ -156,7 +156,7 @@ public class DiscoverFragment extends Fragment {
         List<ActivityItem> items = new ArrayList<>();
         items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Science.ordinal()], "Junior Scientists", "Downtown Science Center", "7-12 yrs", "$250/wk", "4.8", "2.3 mi"));
         items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Daycare.ordinal()], "Little Learners Daycare", "Maple Street Studio", "0-3 yrs", "$1,200/mo", "4.9", "1.5 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Reading.ordinal()], "Storytime at the Library", "Central Public Library", "3-6 yrs", "Free", "4.7", "2.0 mi"));
+        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Reading.ordinal()], "Storytime at the Library", "Central Public Library", "3-6 yrs", ActivityItem.FREE_PRICE, "4.7", "2.0 mi"));
         items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Computers.ordinal()], "Robotics Workshop", "Innovation Hub", "10-14 yrs", "$45", "5.0", "3.1 mi"));
 
         ActivityAdapter adapter = new ActivityAdapter(items);

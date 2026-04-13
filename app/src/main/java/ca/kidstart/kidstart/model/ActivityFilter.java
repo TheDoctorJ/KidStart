@@ -1,20 +1,9 @@
 package ca.kidstart.kidstart.model;
 
-public interface ActivityFilter {
-    public boolean isIncluded(ActivityItem activity);
+public abstract class ActivityFilter {
+    protected String name;
 
-    /**
-     *
-     */
-    public class InterestCategoryFilter implements ActivityFilter {
-        private InterestCategory toFilter;
-        public InterestCategoryFilter(InterestCategory newToFilter) {
-            this.toFilter = newToFilter;
-        }
-
-        @Override
-        public boolean isIncluded(ActivityItem activity) {
-            return false;
-        }
-    }
+    public String getName() { return name; }
+    public abstract boolean isIncluded(ActivityItem activity);
 }
+

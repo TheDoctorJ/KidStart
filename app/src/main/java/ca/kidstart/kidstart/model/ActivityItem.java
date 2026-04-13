@@ -10,6 +10,8 @@ public class ActivityItem {
     private final String rating;
     private final String distance;
 
+    public static final String FREE_PRICE = "Free";
+
     public ActivityItem(int imageResId, InterestCategory category, String title, String location,
                         String ageRange, String price, String rating, String distance) {
         this.imageResId = imageResId;

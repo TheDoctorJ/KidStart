@@ -1,9 +1,13 @@
 package ca.kidstart.kidstart;
 
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.content.res.TypedArrayUtils;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -78,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
         interestCategories = new InterestCategory[categoryCount];
         for (int i = 0; i < categoryCount; i++) {
             interestCategories[i] = new InterestCategory(
-                    getResources().getDrawable(getResources().getIntArray(R.array.interest_category_drawables)[i], getTheme()),
-                    getString(getResources().getIntArray(R.array.interest_category_names)[i]),
-                    getString(getResources().getIntArray(R.array.interest_category_descriptions)[i]));
+                    ResourcesCompat.getDrawable(getResources(), getResources().obtainTypedArray(R.array.interest_category_drawables).getResourceId(i, 0), getTheme()),
+                    getResources().getStringArray(R.array.interest_category_names)[i],
+                    getResources().getStringArray(R.array.interest_category_descriptions)[i]);
         }
     }
 }
