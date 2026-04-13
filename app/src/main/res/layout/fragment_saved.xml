@@ -15,18 +15,14 @@
         android:text="@string/activities_found" />
 
     <!-- Filters -->
-    <HorizontalScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filter_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="ifContentScrolls">
+        android:orientation="horizontal"
+        android:scrollbars="none"
+        android:layout_marginVertical="@dimen/medium_margin" />
 
-        <com.google.android.material.button.MaterialButtonGroup
-            android:id="@+id/filter_button_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </com.google.android.material.button.MaterialButtonGroup>
-
-    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/saved_activities_recycler"

@@ -7,22 +7,26 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.button.MaterialButtonGroup;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.List;
 
 import ca.kidstart.kidstart.MainActivity;
 import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.adapter.ActivityAdapter;
+import ca.kidstart.kidstart.adapter.ChipAdapter;
 import ca.kidstart.kidstart.model.ActivityFilter;
 import ca.kidstart.kidstart.model.ActivityItem;
+import ca.kidstart.kidstart.model.AllFilter;
+import ca.kidstart.kidstart.model.ChipItem;
 import ca.kidstart.kidstart.model.DistanceFilter;
 import ca.kidstart.kidstart.model.FreeFilter;
 import ca.kidstart.kidstart.model.InterestCategory;
@@ -35,7 +39,7 @@ public class SavedFragment extends Fragment {
     private View fragmentView;
     LinkedList<ActivityItem> savedActivities;
     private RecyclerView activityItemsRecyclerView;
-    private MaterialButtonGroup filterButtonGroup;
+    private RecyclerView filterRecycler;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -47,7 +51,7 @@ public class SavedFragment extends Fragment {
         savedActivities = loadSavedActivities();
         setActivityItemsInRecycler(savedActivities);
 
-        createFilterButtons();
+        setupFilterChips();
 
         return fragmentView;
     }
@@ -96,44 +100,81 @@ public class SavedFragment extends Fragment {
     /**
      * Prepare filter buttons.
      */
-    private void createFilterButtons() {
-        filterButtonGroup = fragmentView.findViewById(R.id.filter_button_group);
+    private void setupFilterChips() {
+        LinkedList<ChipItem> filterChipList = new LinkedList<ChipItem>();
+        filterRecycler = fragmentView.findViewById(R.id.filter_recycler);
+
+        filterChipList.add(new ChipItem("All" + " (" + savedActivities.size() + ")",
+                true, new AllFilter())); // All filter is always visible;
 
         InterestCategory[] interestCategories = MainActivity.interestCategories;
+        InterestCategoryFilter icFilter;
+        int filteredItemCount;
         for (int i = 0; i < interestCategories.length; i++) {
-            newFilterButton(new InterestCategoryFilter(interestCategories[i]));
+            icFilter = new InterestCategoryFilter(interestCategories[i]);
+            filteredItemCount = getFilteredItems(icFilter).size();
+            if (filteredItemCount > 0)
+                filterChipList.add(new ChipItem(icFilter.getName() + " (" + filteredItemCount + ")",
+                        false, icFilter));
         }
 
+        DistanceFilter distanceFilter; // Think about this...
         for (int i = 0; i < DISTANCES_TO_FILTER.length; i++) {
-            newFilterButton(new DistanceFilter(DISTANCES_TO_FILTER[i]));
+            distanceFilter = new DistanceFilter(DISTANCES_TO_FILTER[i]);
+            filteredItemCount = getFilteredItems(distanceFilter).size();
+            if (filteredItemCount > 0)
+                filterChipList.add(new ChipItem(distanceFilter.getName() + " (" + filteredItemCount + ")",
+                        false, distanceFilter));
         }
 
-        newFilterButton(new FreeFilter());
-    }
+        filteredItemCount = getFilteredItems(new FreeFilter()).size();
+        filterChipList.add(new ChipItem("Free" + " (" + filteredItemCount + ")",
+                false, new FreeFilter())); // Free filter is always visible
 
-    /**
-     * Instance one filter button.
-     * @param filter for the button.
-     */
-    private void newFilterButton(ActivityFilter filter) {
-        MaterialButton button = new MaterialButton(getContext());
-        LinkedList<ActivityItem> filteredItems = getFilteredItems(filter);
-
-        // Do not make a filter button if there are not items to be filtered.
-        if (filteredItems.isEmpty())
-            return;
-
-        button.setLayoutParams(
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        button.setText(filter.getName());
-
-        button.setOnClickListener(v -> {
-            setActivityItemsInRecycler(filteredItems);
+        // Adapter stuff
+        ChipAdapter adapter = new ChipAdapter(requireContext(), filterChipList, position -> {
+            RecyclerView.Adapter<?> recyclerAdapter = filterRecycler.getAdapter();
+            if (recyclerAdapter instanceof ChipAdapter) {
+                ((ChipAdapter) recyclerAdapter).setSelectedPosition(position);
+                setActivityItemsInRecycler(getFilteredItems(filterChipList.get(position).getFilter()));
+            }
         });
 
-        filterButtonGroup.addView(button);
+        filterRecycler.setLayoutManager(
+                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        );
+        filterRecycler.setAdapter(adapter);
     }
+
+//    /**
+//     * Instance one filter button.
+//     * @param filter for the button.
+//     */
+//    private ChipItem newFilterButton(ActivityFilter filter) {
+//        ChipItem chip = new ChipItem(filter);
+//        LinkedList<ActivityItem> filteredItems = getFilteredItems(filter);
+//
+//        // Do not make a filter button if there are not items to be filtered by the button.
+//        if (filteredItems.isEmpty())
+//            return null;
+//
+//        /*
+//        button.setLayoutParams(
+//                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT));
+//        button.setText(filter.getName() + " (" + filteredItems.size() + ")");
+//
+//        button.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.surface));
+//        button.setStrokeColorResource(R.color.stroke);
+//        button.setTextColor(ContextCompat.getColor(getContext(), R.color.text_primary));
+//         */
+////        chip.setOnClickListener(v -> {
+////            setSelectedButton(button);
+////        });
+//
+//        filterRecycler.addView(button);
+//        return button;
+//    }
 
     private LinkedList<ActivityItem> getFilteredItems(ActivityFilter filter) {
         LinkedList<ActivityItem> result = new LinkedList<ActivityItem>();
