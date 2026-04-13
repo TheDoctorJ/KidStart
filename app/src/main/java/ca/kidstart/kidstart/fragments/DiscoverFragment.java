@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import ca.kidstart.kidstart.MainActivity;
@@ -122,7 +123,9 @@ public class DiscoverFragment extends Fragment {
                 "7-12 yrs",
                 "$250/wk",
                 "4.8",
-                "2.3 mi"
+                "2.3 mi",
+                new GregorianCalendar(2026, 3, 14, 14, 0),
+                new GregorianCalendar(2026, 3, 14, 16, 30)
         ));
         items.add(new ActivityItem(
                 R.drawable.sample_1,
@@ -132,7 +135,9 @@ public class DiscoverFragment extends Fragment {
                 "0-3 yrs",
                 "$1,200/mo",
                 "4.9",
-                "1.5 mi"
+                "1.5 mi",
+                new GregorianCalendar(2026, 4, 15, 10, 30),
+                new GregorianCalendar(2026, 4, 15, 12, 30)
         ));
         items.add(new ActivityItem(
                 R.drawable.sample_1,
@@ -142,7 +147,9 @@ public class DiscoverFragment extends Fragment {
                 "3-6 yrs",
                 "Free",
                 "4.7",
-                "2.0 mi"
+                "2.0 mi",
+                new GregorianCalendar(2026, 3, 18, 9, 30),
+                new GregorianCalendar(2026, 3, 19, 16, 30)
         ));
 
         HorizontalActivityAdapter adapter = new HorizontalActivityAdapter(items);
@@ -154,10 +161,50 @@ public class DiscoverFragment extends Fragment {
 
     private void setupTrending() {
         List<ActivityItem> items = new ArrayList<>();
-        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Science.ordinal()], "Junior Scientists", "Downtown Science Center", "7-12 yrs", "$250/wk", "4.8", "2.3 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Daycare.ordinal()], "Little Learners Daycare", "Maple Street Studio", "0-3 yrs", "$1,200/mo", "4.9", "1.5 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Reading.ordinal()], "Storytime at the Library", "Central Public Library", "3-6 yrs", ActivityItem.FREE_PRICE, "4.7", "2.0 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, MainActivity.interestCategories[InterestCategory.Categories.Computers.ordinal()], "Robotics Workshop", "Innovation Hub", "10-14 yrs", "$45", "5.0", "3.1 mi"));
+        items.add(new ActivityItem(R.drawable.sm_sample_1,
+                MainActivity.interestCategories[InterestCategory.Categories.Science.ordinal()],
+                "Junior Scientists",
+                "Downtown Science Center",
+                "7-12 yrs",
+                "$250/wk",
+                "4.8",
+                "2.3 mi",
+                new GregorianCalendar(2026, 5, 14, 11, 0),
+                new GregorianCalendar(2026, 5, 16, 15, 30)
+        ));
+        items.add(new ActivityItem(R.drawable.sm_sample_1,
+                MainActivity.interestCategories[InterestCategory.Categories.Daycare.ordinal()],
+                "Little Learners Daycare",
+                "Maple Street Studio",
+                "0-3 yrs",
+                "$1,200/mo",
+                "4.9",
+                "1.5 mi",
+                new GregorianCalendar(2026, 3, 14, 14, 0),
+                new GregorianCalendar(2026, 3, 14, 16, 30)
+        ));
+        items.add(new ActivityItem(R.drawable.sm_sample_1,
+                MainActivity.interestCategories[InterestCategory.Categories.Reading.ordinal()],
+                "Storytime at the Library",
+                "Central Public Library",
+                "3-6 yrs",
+                ActivityItem.FREE_PRICE,
+                "4.7",
+                "2.0 mi",
+                new GregorianCalendar(2026, 3, 14, 14, 0),
+                new GregorianCalendar(2026, 3, 14, 16, 30)
+        ));
+        items.add(new ActivityItem(R.drawable.sm_sample_1,
+                MainActivity.interestCategories[InterestCategory.Categories.Computers.ordinal()],
+                "Robotics Workshop",
+                "Innovation Hub",
+                "10-14 yrs",
+                "$45",
+                "5.0",
+                "3.1 mi",
+                new GregorianCalendar(2026, 3, 14, 14, 0),
+                new GregorianCalendar(2026, 3, 14, 16, 30)
+        ));
 
         ActivityAdapter adapter = new ActivityAdapter(items);
         recyclerTrending.setLayoutManager(new LinearLayoutManager(requireContext()));

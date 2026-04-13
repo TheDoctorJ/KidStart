@@ -95,6 +95,7 @@
     <!--            Saved            -->
     <string name="activities_found">Saved Activities Found</string>
     <string name="all_activities">All</string>
+    <string name="sync_button">Sync Activities to Calendar</string>
 
     <!--            Profile            -->
     <string name="edit_profile_text">Edit Profile</string>
@@ -126,7 +127,6 @@
     <string name="notifications_description">Manage push alerts and emails.</string>
     <string name="help_header">Help and Support</string>
     <string name="help_description">FAQ and app guide.</string>
-    <!-- -->
     <string name="logout_label">Logout of Kidstart</string>
     <string name="empty_username_snack">Profile name not changed (empty.)</string>
 </resources>

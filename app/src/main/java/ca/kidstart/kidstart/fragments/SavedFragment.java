@@ -1,6 +1,10 @@
 package ca.kidstart.kidstart.fragments;
 
+import static androidx.core.content.ContextCompat.startActivities;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,6 +58,7 @@ public class SavedFragment extends Fragment {
         setActivityItemsInRecycler(savedActivities);
 
         setupFilterChips();
+        handleSyncCalendarButton();
 
         return fragmentView;
     }
@@ -69,7 +76,10 @@ public class SavedFragment extends Fragment {
                 "0-10",
                 "$10",
                 "4",
-                "10km"));
+                "10km",
+                new GregorianCalendar(2026, 3, 14, 14, 0),
+                new GregorianCalendar(2026, 3, 14, 16, 30)
+        ));
         placeholderItems.add(new ActivityItem(R.drawable.sm_sample_1,
                 MainActivity.interestCategories[InterestCategory.Categories.Art.ordinal()],
                 "Title",
@@ -77,7 +87,10 @@ public class SavedFragment extends Fragment {
                 "0-10",
                 "$10",
                 "4",
-                "10km"));
+                "10km",
+                new GregorianCalendar(2026, 4, 16, 10, 0),
+                new GregorianCalendar(2026, 4, 17, 16, 30)
+        ));
 
         MaterialTextView activitiesFoundHeader = fragmentView.findViewById(R.id.activities_found_header);
         activitiesFoundHeader.setText(placeholderItems.size() + " " + getString(R.string.activities_found));
@@ -146,6 +159,37 @@ public class SavedFragment extends Fragment {
         filterRecycler.setAdapter(adapter);
     }
 
+    private LinkedList<ActivityItem> getFilteredItems(ActivityFilter filter) {
+        LinkedList<ActivityItem> result = new LinkedList<ActivityItem>();
+        for (int i = 0; i < savedActivities.size(); i++) {
+            if (filter.isIncluded(savedActivities.get(i)))
+                result.add(savedActivities.get(i));
+        }
+        return result;
+    }
+
+    private void handleSyncCalendarButton() {
+        MaterialButton button = fragmentView.findViewById(R.id.calendar_sync);
+
+        button.setOnClickListener(v -> {
+            Intent[] intentArray = new Intent[savedActivities.size()];
+            ActivityItem currentActivity;
+            for (int i = 0; i < intentArray.length; i++) {
+                currentActivity = savedActivities.get(i);
+                intentArray[i] = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, currentActivity.getStartTime().getTimeInMillis())
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, currentActivity.getEndTime().getTimeInMillis())
+                        .putExtra(CalendarContract.Events.TITLE, currentActivity.getTitle())
+                        //.putExtra(CalendarContract.Events.DESCRIPTION, currentActivity.get)
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, currentActivity.getLocation())
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+            }
+            startActivities(getContext(), intentArray);
+        });
+    }
+
+
 //    /**
 //     * Instance one filter button.
 //     * @param filter for the button.
@@ -176,12 +220,4 @@ public class SavedFragment extends Fragment {
 //        return button;
 //    }
 
-    private LinkedList<ActivityItem> getFilteredItems(ActivityFilter filter) {
-        LinkedList<ActivityItem> result = new LinkedList<ActivityItem>();
-        for (int i = 0; i < savedActivities.size(); i++) {
-            if (filter.isIncluded(savedActivities.get(i)))
-                result.add(savedActivities.get(i));
-        }
-        return result;
-    }
 }
