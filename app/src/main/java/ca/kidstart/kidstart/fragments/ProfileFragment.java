@@ -1,6 +1,7 @@
 package ca.kidstart.kidstart.fragments;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
@@ -34,7 +35,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import ca.kidstart.kidstart.R;
+import ca.kidstart.kidstart.activity.LoginActivity;
 import ca.kidstart.kidstart.model.InterestCategory;
+import ca.kidstart.kidstart.utils.SessionManager;
 
 public class ProfileFragment extends Fragment {
 
@@ -246,7 +249,6 @@ public class ProfileFragment extends Fragment {
      * Gets setting and logout buttons and writes the onClickListener.
      */
     private void handleSettingsAndLogoutButtons() {
-        // Settings buttons
         LinearLayout accountManagementButton = fragmentView.findViewById(R.id.account_management_layout);
         LinearLayout notificationsButton = fragmentView.findViewById(R.id.notifications_layout);
         LinearLayout helpSupportButton = fragmentView.findViewById(R.id.help_and_support_layout);
@@ -276,11 +278,15 @@ public class ProfileFragment extends Fragment {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Logout stuff
+                SessionManager sessionManager = new SessionManager(requireContext());
+                sessionManager.logout();
+
+                Intent intent = new Intent(requireActivity(), LoginActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
             }
         });
     }
-
     /**
      * Shows the views to edit the profile and hides the regular profile summary.
      */
