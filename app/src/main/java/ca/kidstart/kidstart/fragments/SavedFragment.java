@@ -76,7 +76,7 @@ public class SavedFragment extends Fragment {
                 "0-10",
                 "$10",
                 "4",
-                "10km",
+                "17km",
                 new GregorianCalendar(2026, 3, 14, 14, 0),
                 new GregorianCalendar(2026, 3, 14, 16, 30)
         ));
@@ -87,7 +87,7 @@ public class SavedFragment extends Fragment {
                 "0-10",
                 "$10",
                 "4",
-                "10km",
+                "18km",
                 new GregorianCalendar(2026, 4, 16, 10, 0),
                 new GregorianCalendar(2026, 4, 17, 16, 30)
         ));
@@ -120,9 +120,10 @@ public class SavedFragment extends Fragment {
         filterChipList.add(new ChipItem("All" + " (" + savedActivities.size() + ")",
                 true, new AllFilter())); // All filter is always visible;
 
+        int filteredItemCount;
+
         InterestCategory[] interestCategories = MainActivity.interestCategories;
         InterestCategoryFilter icFilter;
-        int filteredItemCount;
         for (int i = 0; i < interestCategories.length; i++) {
             icFilter = new InterestCategoryFilter(interestCategories[i]);
             filteredItemCount = getFilteredItems(icFilter).size();
@@ -131,11 +132,12 @@ public class SavedFragment extends Fragment {
                         false, icFilter));
         }
 
-        DistanceFilter distanceFilter; // Think about this...
+        DistanceFilter distanceFilter;
         for (int i = 0; i < DISTANCES_TO_FILTER.length; i++) {
             distanceFilter = new DistanceFilter(DISTANCES_TO_FILTER[i]);
             filteredItemCount = getFilteredItems(distanceFilter).size();
-            if (filteredItemCount > 0)
+            if (filteredItemCount > 0
+                    && getFilteredItems(filterChipList.peekLast().getFilter()).size() < filteredItemCount)
                 filterChipList.add(new ChipItem(distanceFilter.getName() + " (" + filteredItemCount + ")",
                         false, distanceFilter));
         }
