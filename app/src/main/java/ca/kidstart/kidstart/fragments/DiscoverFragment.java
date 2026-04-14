@@ -26,6 +26,7 @@ import ca.kidstart.kidstart.model.ActivityItem;
 import ca.kidstart.kidstart.model.ChipItem;
 import ca.kidstart.kidstart.model.FeaturedSlide;
 import ca.kidstart.kidstart.adapter.HorizontalActivityAdapter;
+import ca.kidstart.kidstart.model.FilterBuilder;
 import ca.kidstart.kidstart.model.InterestCategory;
 
 public class DiscoverFragment extends Fragment {
@@ -34,6 +35,7 @@ public class DiscoverFragment extends Fragment {
     private RecyclerView recyclerChips;
     private RecyclerView recyclerHappeningSoon;
     private RecyclerView recyclerTrending;
+    private List<ActivityItem> happeningSoonActivities;
 
     private final Handler sliderHandler = new Handler(Looper.getMainLooper());
 
@@ -65,9 +67,14 @@ public class DiscoverFragment extends Fragment {
         recyclerTrending = view.findViewById(R.id.recyclerTrending);
 
         setupFeaturedSlider();
-        setupChips();
         setupHappeningSoon();
         setupTrending();
+
+        new FilterBuilder(happeningSoonActivities,
+                getContext(),
+                recyclerChips,
+                recyclerHappeningSoon)
+                .setUpFilterChips();
     }
 
     private void setupFeaturedSlider() {
@@ -92,30 +99,9 @@ public class DiscoverFragment extends Fragment {
         viewPagerFeatured.setPageTransformer(transformer);
     }
 
-    private void setupChips() {
-        List<ChipItem> chipList = new ArrayList<>();
-        chipList.add(new ChipItem("All", true));
-        chipList.add(new ChipItem("Science", false));
-        chipList.add(new ChipItem("Daycare", false));
-        chipList.add(new ChipItem("Education", false));
-        chipList.add(new ChipItem("Sports", false));
-
-        ChipAdapter adapter = new ChipAdapter(requireContext(), chipList, position -> {
-            RecyclerView.Adapter<?> recyclerAdapter = recyclerChips.getAdapter();
-            if (recyclerAdapter instanceof ChipAdapter) {
-                ((ChipAdapter) recyclerAdapter).setSelectedPosition(position);
-            }
-        });
-
-        recyclerChips.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
-        recyclerChips.setAdapter(adapter);
-    }
-
     private void setupHappeningSoon() {
-        List<ActivityItem> items = new ArrayList<>();
-        items.add(new ActivityItem(
+        happeningSoonActivities = new ArrayList<>();
+        happeningSoonActivities.add(new ActivityItem(
                 R.drawable.sample_1,
                 MainActivity.interestCategories[InterestCategory.Categories.Science.ordinal()],
                 "Junior Scientists Summer",
@@ -127,7 +113,7 @@ public class DiscoverFragment extends Fragment {
                 new GregorianCalendar(2026, 3, 14, 14, 0),
                 new GregorianCalendar(2026, 3, 14, 16, 30)
         ));
-        items.add(new ActivityItem(
+        happeningSoonActivities.add(new ActivityItem(
                 R.drawable.sample_1,
                 MainActivity.interestCategories[InterestCategory.Categories.Daycare.ordinal()],
                 "Little Learners Daycare",
@@ -139,7 +125,7 @@ public class DiscoverFragment extends Fragment {
                 new GregorianCalendar(2026, 4, 15, 10, 30),
                 new GregorianCalendar(2026, 4, 15, 12, 30)
         ));
-        items.add(new ActivityItem(
+        happeningSoonActivities.add(new ActivityItem(
                 R.drawable.sample_1,
                 MainActivity.interestCategories[InterestCategory.Categories.Reading.ordinal()],
                 "Storytime at the Library",
@@ -152,7 +138,7 @@ public class DiscoverFragment extends Fragment {
                 new GregorianCalendar(2026, 3, 19, 16, 30)
         ));
 
-        HorizontalActivityAdapter adapter = new HorizontalActivityAdapter(items);
+        HorizontalActivityAdapter adapter = new HorizontalActivityAdapter(happeningSoonActivities);
         recyclerHappeningSoon.setLayoutManager(
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         );
