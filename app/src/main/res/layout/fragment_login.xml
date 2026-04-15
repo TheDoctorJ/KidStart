@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".model.LoginFragment">
+    tools:context=".fragments.LoginFragment">
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/welcome_text"
         style="@style/TextAppearance.Material3.TitleLarge.Emphasized"

@@ -1,4 +1,4 @@
-package ca.kidstart.kidstart.model;
+package ca.kidstart.kidstart.fragments;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -152,6 +152,11 @@ public class LoginFragment extends Fragment {
                         Snackbar.make(this.getView(), "Email sent!", 5).show();
                     }
                 });
+
+        // Notify the user that we've sent them an email link.
+        loginEmailLayout.setHelperText("We've sent you an email with a link to login.");
+        loginEmailLayout.setHelperTextEnabled(true);
+        loginButton.setEnabled(false);
     }
 
 

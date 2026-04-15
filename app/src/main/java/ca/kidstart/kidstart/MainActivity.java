@@ -8,14 +8,10 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import ca.kidstart.kidstart.activity.LoginActivity;
 import ca.kidstart.kidstart.fragments.DiscoverFragment;
 import ca.kidstart.kidstart.fragments.ProfileFragment;
 import ca.kidstart.kidstart.fragments.SavedFragment;
 import ca.kidstart.kidstart.fragments.SearchFragment;
-import ca.kidstart.kidstart.utils.SessionManager;
-
-import android.content.Intent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,17 +19,10 @@ public class MainActivity extends AppCompatActivity {
     private MaterialToolbar topBar;
     private BottomNavigationView bottomNavigationView;
 
-    private SessionManager sessionManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); sessionManager = new SessionManager(this);
+        super.onCreate(savedInstanceState);
 
-        if (!sessionManager.isLoggedIn()) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
-            return;
-        }
 
         setContentView(R.layout.activity_main);
 

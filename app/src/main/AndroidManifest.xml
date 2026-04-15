@@ -21,6 +21,7 @@
 
         <activity
             android:name=".activity.LoginActivity"
+            android:launchMode="singleInstance"
             android:exported="true">
             <tools:validation testUrl="https://kidstart.firebaseapp.com/__/auth/links" />
 
@@ -45,7 +46,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="false">
         </activity>
     </application>
 
