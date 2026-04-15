@@ -149,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
 
                     } else{
+                        spinner.setVisibility(View.GONE);
                         navController.navigate(R.id.action_loginFragment_to_signUpFragment);
                     }
 
