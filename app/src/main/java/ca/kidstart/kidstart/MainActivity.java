@@ -81,10 +81,7 @@ public class MainActivity extends AppCompatActivity {
         int categoryCount = InterestCategory.Categories.values().length;
         interestCategories = new InterestCategory[categoryCount];
         for (int i = 0; i < categoryCount; i++) {
-            interestCategories[i] = new InterestCategory(
-                    ResourcesCompat.getDrawable(getResources(), getResources().obtainTypedArray(R.array.interest_category_drawables).getResourceId(i, 0), getTheme()),
-                    getResources().getStringArray(R.array.interest_category_names)[i],
-                    getResources().getStringArray(R.array.interest_category_descriptions)[i]);
+            interestCategories[i] = new InterestCategory(InterestCategory.Categories.values()[i], this);
         }
     }
 }

@@ -1,5 +1,7 @@
 package ca.kidstart.kidstart.model;
 
+
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import ca.kidstart.kidstart.R;
@@ -8,6 +10,7 @@ public class InterestCategory {
     private Drawable icon;
     private String name;
     private String description;
+    private Categories category;
     public enum Categories {
         Science,
         Art,
@@ -18,33 +21,23 @@ public class InterestCategory {
         Daycare
     }
 
-    public InterestCategory(Drawable newIcon, String newName, String newDescription) {
-        this.icon = newIcon;
-        this.name = newName;
-        this.description = newDescription;
+    public InterestCategory(Categories category, Context context) {
+        this.icon = context.getDrawable(
+                context.getResources().obtainTypedArray(R.array.interest_category_drawables).getResourceId(category.ordinal(), 0));
+        this.name = context.getResources().getStringArray(R.array.interest_category_names)[category.ordinal()];
+        this.description = context.getResources().getStringArray(R.array.interest_category_descriptions)[category.ordinal()];
+        this.category = category;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Drawable getIcon() {
         return icon;
     }
-
-    public void setIcon(Drawable icon) {
-        this.icon = icon;
-    }
+    public Categories getCategory() { return category; }
 }

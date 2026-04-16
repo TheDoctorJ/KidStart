@@ -51,9 +51,7 @@ public class ActivityItem {
         return ageRange;
     }
 
-    public String getPrice() {
-        return price;
-    }
+    public String getPrice() { return price; }
 
     public String getRating() {
         return rating;
