@@ -12,78 +12,105 @@ public class ActivityDataProvider {
         List<ActivityItem> items = new ArrayList<>();
 
         items.add(new ActivityItem(
-                R.drawable.sm_sample_1,
+                R.drawable.kids_science,
                 "SCIENCE",
                 "Junior Scientists",
                 "Downtown Science Center",
                 "7-12 yrs",
                 "$250/wk",
                 "4.8",
-                "2.3 mi"
+                "2.3 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
-                R.drawable.sm_sample_1,
-                "DAYCARE",
-                "Little Learners Daycare",
-                "Maple Street Studio",
-                "0-3 yrs",
-                "$1,200/mo",
+                R.drawable.kids_art,
+                "ARTS",
+                "Creative Painting Club",
+                "West End Art Room",
+                "3-6 yrs",
+                "$20/mo",
                 "4.9",
-                "1.5 mi"
+                "1.7 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
-                R.drawable.sm_sample_1,
+                R.drawable.kids_library,
                 "EDUCATION",
                 "Storytime at the Library",
                 "Central Public Library",
                 "3-6 yrs",
                 "Free",
                 "4.7",
-                "2.0 mi"
+                "2.0 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
-                R.drawable.sm_sample_1,
+                R.drawable.kids_robotics,
                 "TECHNOLOGY",
                 "Robotics Workshop",
                 "Innovation Hub",
                 "10-14 yrs",
                 "$45",
                 "5.0",
-                "3.1 mi"
+                "3.1 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
-                R.drawable.sm_sample_1,
+                R.drawable.kids_sports,
                 "SPORTS",
-                "Soccer Stars Camp",
-                "Westside Field House",
+                "Kids Soccer Clinic",
+                "Northside Recreation Centre",
                 "7-12 yrs",
-                "$120/wk",
-                "4.6",
-                "4.2 mi"
+                "$60/wk",
+                "4.8",
+                "2.9 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
+
         items.add(new ActivityItem(
-                R.drawable.sm_sample_1,
-                "ARTS",
-                "Creative Kids Studio",
-                "Downtown Arts Center",
-                "3-6 yrs",
-                "$90",
-                "4.5",
-                "1.8 mi"
+                R.drawable.kids_sport2,
+                "SPORTS",
+                "Kids Basketball Clinic",
+                "Kamloops Riverside Park",
+                "7-12 yrs",
+                "$310/wk",
+                "4.9",
+                "1.9 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
+
+
+        items.add(new ActivityItem(
+                R.drawable.kids_edu,
+                "EDUCATION",
+                "National Geography Kids",
+                "Thomson Valley Kids",
+                "10-14 yrs",
+                "$330/wk",
+                "5.0",
+                "4.1 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
+        ));
+
 
         return items;
     }
 
     public static List<ActivityItem> getTrendingActivities() {
-        return new ArrayList<>(getAllActivities());
-    }
+        List<ActivityItem> all = getAllActivities();
+        List<ActivityItem> result = new ArrayList<>();
 
+        for (int i = 0; i < Math.min(5, all.size()); i++) {
+            result.add(all.get(i));
+        }
+
+        return result;
+    }
     public static List<ActivityItem> getHappeningSoonActivities() {
         List<ActivityItem> all = getAllActivities();
         List<ActivityItem> result = new ArrayList<>();

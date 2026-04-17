@@ -173,7 +173,7 @@ public class SearchFragment extends Fragment {
             }
 
             if (matches && selectedAgeGroup != null
-                    && !item.getAgeGroup().equalsIgnoreCase(selectedAgeGroup)) {
+                    && !item.getAgeRange().equalsIgnoreCase(selectedAgeGroup)) {
                 matches = false;
             }
 

@@ -18,20 +18,20 @@ import java.util.List;
 
 import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.adapter.ActivityAdapter;
-import ca.kidstart.kidstart.adapter.ChipAdapter;
 import ca.kidstart.kidstart.adapter.FeaturedSliderAdapter;
 import ca.kidstart.kidstart.adapter.HorizontalActivityAdapter;
 import ca.kidstart.kidstart.data.ActivityDataProvider;
 import ca.kidstart.kidstart.model.ActivityItem;
-import ca.kidstart.kidstart.model.ChipItem;
 import ca.kidstart.kidstart.model.FeaturedSlide;
 
 public class DiscoverFragment extends Fragment {
 
     private ViewPager2 viewPagerFeatured;
-    private RecyclerView recyclerChips;
     private RecyclerView recyclerHappeningSoon;
     private RecyclerView recyclerTrending;
+
+    private HorizontalActivityAdapter happeningSoonAdapter;
+    private ActivityAdapter trendingAdapter;
 
     private final Handler sliderHandler = new Handler(Looper.getMainLooper());
 
@@ -58,21 +58,19 @@ public class DiscoverFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewPagerFeatured = view.findViewById(R.id.viewPagerFeatured);
-        recyclerChips = view.findViewById(R.id.recyclerChips);
         recyclerHappeningSoon = view.findViewById(R.id.recyclerHappeningSoon);
         recyclerTrending = view.findViewById(R.id.recyclerTrending);
 
         setupFeaturedSlider();
-        setupChips();
         setupHappeningSoon();
         setupTrending();
     }
 
     private void setupFeaturedSlider() {
         List<FeaturedSlide> slideList = new ArrayList<>();
-        slideList.add(new FeaturedSlide(R.drawable.sample_1, "Featured", "Family Adventures This Weekend"));
-        slideList.add(new FeaturedSlide(R.drawable.sample_1, "Popular", "Science Camps Near You"));
-        slideList.add(new FeaturedSlide(R.drawable.sample_1, "Discover", "Creative Classes for Kids"));
+        slideList.add(new FeaturedSlide(R.drawable.kids_sports, "FEATURED", "Weekend Sports for Kids"));
+        slideList.add(new FeaturedSlide(R.drawable.kids_science, "POPULAR", "Top STEM Programs"));
+        slideList.add(new FeaturedSlide(R.drawable.kids_art, "NEW", "Creative Classes Near You"));
 
         FeaturedSliderAdapter adapter = new FeaturedSliderAdapter(slideList);
         viewPagerFeatured.setAdapter(adapter);
@@ -90,49 +88,47 @@ public class DiscoverFragment extends Fragment {
         viewPagerFeatured.setPageTransformer(transformer);
     }
 
-    private void setupChips() {
-        List<ChipItem> chipList = new ArrayList<>();
-        chipList.add(new ChipItem("All", true));
-        chipList.add(new ChipItem("Science", false));
-        chipList.add(new ChipItem("Daycare", false));
-        chipList.add(new ChipItem("Education", false));
-        chipList.add(new ChipItem("Sports", false));
-
-        ChipAdapter adapter = new ChipAdapter(requireContext(), chipList, position -> {
-            RecyclerView.Adapter<?> recyclerAdapter = recyclerChips.getAdapter();
-            if (recyclerAdapter instanceof ChipAdapter) {
-                ((ChipAdapter) recyclerAdapter).setSelectedPosition(position);
-            }
-        });
-
-        recyclerChips.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
-        recyclerChips.setAdapter(adapter);
-    }
-
     private void setupHappeningSoon() {
         List<ActivityItem> items = ActivityDataProvider.getHappeningSoonActivities();
 
-        HorizontalActivityAdapter adapter = new HorizontalActivityAdapter(items);
+        happeningSoonAdapter = new HorizontalActivityAdapter(
+                items,
+                item -> refreshFavoriteIcons()
+        );
+
         recyclerHappeningSoon.setLayoutManager(
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         );
-        recyclerHappeningSoon.setAdapter(adapter);
+        recyclerHappeningSoon.setAdapter(happeningSoonAdapter);
     }
 
     private void setupTrending() {
         List<ActivityItem> items = ActivityDataProvider.getTrendingActivities();
 
-        ActivityAdapter adapter = new ActivityAdapter(items);
+        trendingAdapter = new ActivityAdapter(
+                items,
+                item -> refreshFavoriteIcons()
+        );
+
         recyclerTrending.setLayoutManager(new LinearLayoutManager(requireContext()));
-        recyclerTrending.setAdapter(adapter);
+        recyclerTrending.setAdapter(trendingAdapter);
+    }
+
+    private void refreshFavoriteIcons() {
+        if (trendingAdapter != null) {
+            trendingAdapter.notifyDataSetChanged();
+        }
+
+        if (happeningSoonAdapter != null) {
+            happeningSoonAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
+        refreshFavoriteIcons();
     }
 
     @Override

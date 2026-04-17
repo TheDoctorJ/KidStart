@@ -1,32 +1,29 @@
 package ca.kidstart.kidstart.model;
 
-public class ActivityItem {
+import java.util.Objects;
 
+public class ActivityItem {
     private final int imageResId;
     private final String category;
     private final String title;
     private final String location;
-    private final String ageGroup;
+    private final String ageRange;
     private final String price;
     private final String rating;
     private final String distance;
+    private final String detail;
 
-    public ActivityItem(int imageResId,
-                        String category,
-                        String title,
-                        String location,
-                        String ageGroup,
-                        String price,
-                        String rating,
-                        String distance) {
+    public ActivityItem(int imageResId, String category, String title, String location,
+                        String ageRange, String price, String rating, String distance, String detail) {
         this.imageResId = imageResId;
         this.category = category;
         this.title = title;
         this.location = location;
-        this.ageGroup = ageGroup;
+        this.ageRange = ageRange;
         this.price = price;
         this.rating = rating;
         this.distance = distance;
+        this.detail = detail;
     }
 
     public int getImageResId() {
@@ -45,8 +42,8 @@ public class ActivityItem {
         return location;
     }
 
-    public String getAgeGroup() {
-        return ageGroup;
+    public String getAgeRange() {
+        return ageRange;
     }
 
     public String getPrice() {
@@ -62,35 +59,49 @@ public class ActivityItem {
     }
 
     public double getNumericPrice() {
-        if (price == null) return Double.MAX_VALUE;
-
-        String lower = price.toLowerCase().trim();
-        if (lower.equals("free")) return 0;
-
-        String numeric = lower.replace("$", "")
-                .replace("/wk", "")
-                .replace("/mo", "")
-                .replace(",", "")
-                .trim();
-
+        String cleaned = price.replaceAll("[^0-9.]", "");
+        if (cleaned.isEmpty()) {
+            return 0;
+        }
         try {
-            return Double.parseDouble(numeric);
+            return Double.parseDouble(cleaned);
         } catch (NumberFormatException e) {
-            return Double.MAX_VALUE;
+            return 0;
         }
     }
 
     public double getNumericDistance() {
-        if (distance == null) return Double.MAX_VALUE;
-
-        String numeric = distance.toLowerCase()
-                .replace("mi", "")
-                .trim();
-
-        try {
-            return Double.parseDouble(numeric);
-        } catch (NumberFormatException e) {
-            return Double.MAX_VALUE;
+        String cleaned = distance.replaceAll("[^0-9.]", "");
+        if (cleaned.isEmpty()) {
+            return 0;
         }
+        try {
+            return Double.parseDouble(cleaned);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+    public String getDescription() {
+        return detail;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ActivityItem)) return false;
+        ActivityItem that = (ActivityItem) o;
+        return imageResId == that.imageResId
+                && Objects.equals(category, that.category)
+                && Objects.equals(title, that.title)
+                && Objects.equals(location, that.location)
+                && Objects.equals(ageRange, that.ageRange)
+                && Objects.equals(price, that.price)
+                && Objects.equals(rating, that.rating)
+                && Objects.equals(distance, that.distance);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imageResId, category, title, location, ageRange, price, rating, distance);
     }
 }

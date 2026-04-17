@@ -1,5 +1,6 @@
 package ca.kidstart.kidstart.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.kidstart.kidstart.R;
+import ca.kidstart.kidstart.activity.DetailActivity;
+import ca.kidstart.kidstart.data.SavedItemsManager;
 import ca.kidstart.kidstart.model.ActivityItem;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder> {
 
-    private final List<ActivityItem> activityList;
+    public interface OnFavoriteClickListener {
+        void onFavoriteClicked(ActivityItem item);
+    }
+
+    private List<ActivityItem> activityList;
+    private final OnFavoriteClickListener favoriteClickListener;
 
     public ActivityAdapter(List<ActivityItem> activityList) {
+        this(activityList, null);
+    }
+
+    public ActivityAdapter(List<ActivityItem> activityList, OnFavoriteClickListener favoriteClickListener) {
         this.activityList = new ArrayList<>(activityList);
+        this.favoriteClickListener = favoriteClickListener;
+    }
+
+    public void updateList(List<ActivityItem> newList) {
+        this.activityList = new ArrayList<>(newList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,20 +57,47 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         holder.tvCategory.setText(item.getCategory());
         holder.tvTitle.setText(item.getTitle());
         holder.tvLocation.setText(item.getLocation());
-        holder.tvAge.setText(item.getAgeGroup());
+        holder.tvAge.setText(item.getAgeRange());
         holder.tvPrice.setText(item.getPrice());
-        holder.tvRating.setText("⭐ " + item.getRating());
+        holder.tvRating.setText(item.getRating());
+
+        updateHeartIcon(holder.ivFavorite, item);
+
+        holder.ivFavorite.setOnClickListener(v -> {
+            SavedItemsManager.toggleSaved(item);
+            updateHeartIcon(holder.ivFavorite, item);
+
+            if (favoriteClickListener != null) {
+                favoriteClickListener.onFavoriteClicked(item);
+            }
+        });
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra("imageRes", item.getImageResId());
+            intent.putExtra("category", item.getCategory());
+            intent.putExtra("title", item.getTitle());
+            intent.putExtra("location", item.getLocation());
+            intent.putExtra("ageRange", item.getAgeRange());
+            intent.putExtra("price", item.getPrice());
+            intent.putExtra("rating", item.getRating());
+            intent.putExtra("distance", item.getDistance());
+            intent.putExtra("description", item.getDescription());
+            v.getContext().startActivity(intent);
+        });
+    }
+
+    private void updateHeartIcon(ImageView imageView, ActivityItem item) {
+        if (SavedItemsManager.isSaved(item)) {
+            imageView.setImageResource(R.drawable.ic_heart_filled);
+        } else {
+            imageView.setImageResource(R.drawable.ic_heart_outline);
+        }
     }
 
     @Override
     public int getItemCount() {
         return activityList.size();
-    }
-
-    public void updateList(List<ActivityItem> newItems) {
-        activityList.clear();
-        activityList.addAll(new ArrayList<>(newItems));
-        notifyDataSetChanged();
     }
 
     static class ActivityViewHolder extends RecyclerView.ViewHolder {
