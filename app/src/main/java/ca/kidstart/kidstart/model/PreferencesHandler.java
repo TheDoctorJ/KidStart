@@ -19,6 +19,8 @@ public class PreferencesHandler {
     private final String SAVED_ACTIVITIES_ID_STRING_SET = "saved_activities";
     private final String AGE_PREFERENCE = "age_preference";
     private final String DISTANCE_PREFERENCE = "distance_preference";
+    private final String PROFILE_NAME = "profile_name";
+    private final String PROFILE_AVATAR_PATH = "avatar_path";
     private final SharedPreferences sharedPreferences;
 
     private PreferencesHandler(Context context) {
@@ -67,6 +69,14 @@ public class PreferencesHandler {
         return sharedPreferences.getString(DISTANCE_PREFERENCE,UNDEFINED_STRING);
     }
 
+    public String getProfileName() {
+        return sharedPreferences.getString(PROFILE_NAME, UNDEFINED_STRING);
+    }
+
+    public String getAvatarDrawablePath() {
+        return sharedPreferences.getString(PROFILE_AVATAR_PATH, UNDEFINED_STRING);
+    }
+
     public void setInterestedCategories(List<InterestCategory> interestCategories) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -113,4 +123,15 @@ public class PreferencesHandler {
         editor.apply();
     }
 
+    public void setProfileName(String name) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PROFILE_NAME, name);
+        editor.apply();
+    }
+
+    public void setAvatarDrawablePath(String path) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PROFILE_AVATAR_PATH, path);
+        editor.apply();
+    }
 }

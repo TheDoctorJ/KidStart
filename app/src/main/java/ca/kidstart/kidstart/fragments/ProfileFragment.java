@@ -1,18 +1,22 @@
 package ca.kidstart.kidstart.fragments;
 
+import android.content.ContentProvider;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContentProviderCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,10 +55,10 @@ public class ProfileFragment extends Fragment {
     // Edit profile stuff
     private MaterialButton editProfileButton, applyEditProfileButton;
     private CircularRevealCardView profileSummaryCard, editProfileCard;
-    private MaterialTextView userName;
-    private TextInputEditText userNameEdit;
+    private MaterialTextView profileName;
+    private TextInputEditText profileNameEdit;
     private ShapeableImageView avatar, avatarEdit;
-    private BitmapDrawable committedAvatar;
+    private String committedAvatarPath;
 
 
     @Override
@@ -62,17 +66,15 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        handleEdits();
 
         // Load saved stuff
         loadProfilePreferences();
         loadInterestedCategories();
-        //loadProfile();
+        loadProfile();
 
-
-        handleEdits();
+        // Setup all views.
         handleProfilePreferencesSelections();
-
-        // Buttons
         addInterestButton = fragmentView.findViewById(R.id.add_interest);
         addInterestButton.setOnClickListener(v -> { showAddInterestMenu(); });
         handleSettingsAndLogoutButtons();
@@ -84,19 +86,14 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Don't touch
+        // Don't touch I have no clue how this works. It's for the image selector.
         pickMedia =
                 registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                     // Callback is invoked after the user selects a media item or closes the
                     // photo picker.
                     if (uri != null) {
-                        ContentResolver resolver = getContext().getContentResolver();
-                        try {
-                            InputStream stream = resolver.openInputStream(uri);
-                            commitNewAvatar(new BitmapDrawable(getResources(), stream));
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
+                        committedAvatarPath = uri.getPath();
+                        avatarEdit.setImageDrawable(getAvatarFromPath(committedAvatarPath));
                     }
                     else {
                         //
@@ -113,10 +110,14 @@ public class ProfileFragment extends Fragment {
         AutoCompleteTextView distanceAutoComplete = fragmentView.findViewById(R.id.distance_autocomplete);
         if (PreferencesHandler.getInstance(getContext()).getAgePreference().equals(PreferencesHandler.UNDEFINED_STRING)) {
             ageAutoComplete.setText(getResources().getStringArray(R.array.age_array)[0], false);
-            distanceAutoComplete.setText(getResources().getStringArray(R.array.distance_array)[0], false);
         }
         else {
             ageAutoComplete.setText(PreferencesHandler.getInstance(getContext()).getAgePreference(), false);
+        }
+        if (PreferencesHandler.getInstance(getContext()).getDistancePreference().equals(PreferencesHandler.UNDEFINED_STRING)) {
+            distanceAutoComplete.setText(getResources().getStringArray(R.array.distance_array)[0], false);
+        }
+        else {
             distanceAutoComplete.setText(PreferencesHandler.getInstance(getContext()).getDistancePreference(), false);
         }
     }
@@ -128,6 +129,30 @@ public class ProfileFragment extends Fragment {
         selectedInterests = PreferencesHandler.getInstance(getContext()).getInterestedCategories();
         for (int i = 0; i < selectedInterests.size(); i++) {
             addNewInterest(selectedInterests.get(i));
+        }
+    }
+
+    private void loadProfile() {
+        String name = PreferencesHandler.getInstance(getContext()).getProfileName();
+        String drawablepath = PreferencesHandler.getInstance(getContext()).getAvatarDrawablePath();
+        if (name.equals(PreferencesHandler.UNDEFINED_STRING)) {
+            profileName.setText(R.string.placeholder_profile_name);
+            profileNameEdit.setText(R.string.placeholder_profile_name);
+        }
+        else {
+            profileName.setText(name);
+            profileNameEdit.setText(name);
+        }
+
+
+        if (drawablepath.equals(PreferencesHandler.UNDEFINED_STRING)) {
+            avatar.setImageDrawable(getResources().getDrawable(R.drawable.bg_chip, getActivity().getTheme()));
+            avatarEdit.setImageDrawable(getResources().getDrawable(R.drawable.bg_chip, getActivity().getTheme()));
+        }
+        else {
+            Drawable avatarDrawable = getAvatarFromPath(drawablepath);
+            avatar.setImageDrawable(avatarDrawable);
+            avatarEdit.setImageDrawable(avatarDrawable);
         }
     }
 
@@ -297,23 +322,23 @@ public class ProfileFragment extends Fragment {
         profileSummaryCard.setVisibility(View.VISIBLE);
         editProfileCard.setVisibility(View.GONE);
 
-        String newUserName = userNameEdit.getText().toString();
+        String newUserName = profileNameEdit.getText().toString();
         if (newUserName.isEmpty()) {
             Snackbar.make(fragmentView, getString(R.string.empty_username_snack), Snackbar.LENGTH_SHORT).show();
-            userNameEdit.setText(userName.getText().toString());
+            profileNameEdit.setText(profileName.getText().toString());
         }
         else {
-            userName.setText(newUserName);
-            // save newUserName
+            profileName.setText(newUserName);
+            PreferencesHandler.getInstance(getContext()).setProfileName(newUserName);
         }
 
-        if (committedAvatar == null) {
+        if (committedAvatarPath == null) {
             // Do nothing
         }
         else {
-            avatar.setImageDrawable(committedAvatar);
-            // save committedAvatar
-            committedAvatar = null;
+            avatar.setImageDrawable(getAvatarFromPath(committedAvatarPath));
+            PreferencesHandler.getInstance(getContext()).setAvatarDrawablePath(committedAvatarPath);
+            committedAvatarPath = "";
         }
     }
 
@@ -323,8 +348,8 @@ public class ProfileFragment extends Fragment {
     private void handleEdits() {
         profileSummaryCard = fragmentView.findViewById(R.id.profile_summary);
         editProfileCard = fragmentView.findViewById(R.id.profile_edit);
-        userName = fragmentView.findViewById(R.id.user_name);
-        userNameEdit = fragmentView.findViewById(R.id.user_name_edit);
+        profileName = fragmentView.findViewById(R.id.user_name);
+        profileNameEdit = fragmentView.findViewById(R.id.user_name_edit);
         avatar = fragmentView.findViewById(R.id.user_avatar);
         avatarEdit = fragmentView.findViewById(R.id.user_avatar_edit);
         editProfileButton = fragmentView.findViewById(R.id.edit_profile);
@@ -337,12 +362,27 @@ public class ProfileFragment extends Fragment {
                 .build()));
     }
 
-    /**
-     * Given a new drawable avatar, set it, but don't save until apply button is pressed.
-     * @param newAvatar new drawable avatar.
-     */
-    private void commitNewAvatar(BitmapDrawable newAvatar) {
-        avatarEdit.setImageDrawable(newAvatar);
-        committedAvatar = newAvatar;
+
+    private Drawable getAvatarFromPath(String path) {
+        if (path.isEmpty()) {
+            return null;
+        }
+
+//        Drawable result;
+//        ContentResolver resolver = getContext().getContentResolver();
+//
+//        Uri uri = new Uri.Builder().path(path).build();
+//        getContext().permission
+//        getContext().grantUriPermission(getContext().getPackageName(), uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        try {
+//            InputStream stream = resolver.openInputStream(uri);
+//            result = new BitmapDrawable(getResources(), stream);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return result;
+
+        return null;
     }
 }
