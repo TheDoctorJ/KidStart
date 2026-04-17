@@ -18,10 +18,20 @@ import ca.kidstart.kidstart.model.ActivityItem;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder> {
 
+    public interface OnFavoriteClickListener {
+        void onFavoriteClicked(ActivityItem item);
+    }
+
     private List<ActivityItem> activityList;
+    private final OnFavoriteClickListener favoriteClickListener;
 
     public ActivityAdapter(List<ActivityItem> activityList) {
+        this(activityList, null);
+    }
+
+    public ActivityAdapter(List<ActivityItem> activityList, OnFavoriteClickListener favoriteClickListener) {
         this.activityList = new ArrayList<>(activityList);
+        this.favoriteClickListener = favoriteClickListener;
     }
 
     public void updateList(List<ActivityItem> newList) {
@@ -54,6 +64,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         holder.ivFavorite.setOnClickListener(v -> {
             SavedItemsManager.toggleSaved(item);
             updateHeartIcon(holder.ivFavorite, item);
+
+            if (favoriteClickListener != null) {
+                favoriteClickListener.onFavoriteClicked(item);
+            }
         });
     }
 

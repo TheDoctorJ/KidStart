@@ -44,10 +44,6 @@ public class ActivityItem {
         return ageRange;
     }
 
-    public String getAgeGroup() {
-        return ageRange;
-    }
-
     public String getPrice() {
         return price;
     }

@@ -18,19 +18,20 @@ import java.util.List;
 
 import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.adapter.ActivityAdapter;
-import ca.kidstart.kidstart.adapter.ChipAdapter;
 import ca.kidstart.kidstart.adapter.FeaturedSliderAdapter;
 import ca.kidstart.kidstart.adapter.HorizontalActivityAdapter;
+import ca.kidstart.kidstart.data.ActivityDataProvider;
 import ca.kidstart.kidstart.model.ActivityItem;
-import ca.kidstart.kidstart.model.ChipItem;
 import ca.kidstart.kidstart.model.FeaturedSlide;
 
 public class DiscoverFragment extends Fragment {
 
     private ViewPager2 viewPagerFeatured;
-    private RecyclerView recyclerChips;
     private RecyclerView recyclerHappeningSoon;
     private RecyclerView recyclerTrending;
+
+    private HorizontalActivityAdapter happeningSoonAdapter;
+    private ActivityAdapter trendingAdapter;
 
     private final Handler sliderHandler = new Handler(Looper.getMainLooper());
 
@@ -57,12 +58,10 @@ public class DiscoverFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewPagerFeatured = view.findViewById(R.id.viewPagerFeatured);
-        recyclerChips = view.findViewById(R.id.recyclerChips);
         recyclerHappeningSoon = view.findViewById(R.id.recyclerHappeningSoon);
         recyclerTrending = view.findViewById(R.id.recyclerTrending);
 
         setupFeaturedSlider();
-        setupChips();
         setupHappeningSoon();
         setupTrending();
     }
@@ -89,137 +88,47 @@ public class DiscoverFragment extends Fragment {
         viewPagerFeatured.setPageTransformer(transformer);
     }
 
-    private void setupChips() {
-        List<ChipItem> chipList = new ArrayList<>();
-        chipList.add(new ChipItem("All", true));
-        chipList.add(new ChipItem("Science", false));
-        chipList.add(new ChipItem("Arts", false));
-        chipList.add(new ChipItem("Sports", false));
-        chipList.add(new ChipItem("Daycare", false));
-        chipList.add(new ChipItem("Technology", false));
-
-        ChipAdapter adapter = new ChipAdapter(requireContext(), chipList, position -> {
-            RecyclerView.Adapter<?> recyclerAdapter = recyclerChips.getAdapter();
-            if (recyclerAdapter instanceof ChipAdapter) {
-                ((ChipAdapter) recyclerAdapter).setSelectedPosition(position);
-            }
-        });
-
-        recyclerChips.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        );
-        recyclerChips.setAdapter(adapter);
-    }
-
     private void setupHappeningSoon() {
-        List<ActivityItem> items = new ArrayList<>();
+        List<ActivityItem> items = ActivityDataProvider.getHappeningSoonActivities();
 
-        items.add(new ActivityItem(
-                R.drawable.kids_science,
-                "SCIENCE",
-                "Junior Scientists Summer Camp",
-                "Downtown Science Center",
-                "7-12 yrs",
-                "$250/wk",
-                "4.8",
-                "2.3 mi"
-        ));
+        happeningSoonAdapter = new HorizontalActivityAdapter(
+                items,
+                item -> refreshFavoriteIcons()
+        );
 
-        items.add(new ActivityItem(
-                R.drawable.kids_art,
-                "ARTS",
-                "Kids Creative Art Studio",
-                "Maple Arts Centre",
-                "5-10 yrs",
-                "$30/class",
-                "4.9",
-                "1.8 mi"
-        ));
-
-        items.add(new ActivityItem(
-                R.drawable.kids_sports,
-                "SPORTS",
-                "Beginner Soccer Camp",
-                "Riverside Field",
-                "6-11 yrs",
-                "$95/program",
-                "4.7",
-                "2.6 mi"
-        ));
-        HorizontalActivityAdapter adapter = new HorizontalActivityAdapter(items);
         recyclerHappeningSoon.setLayoutManager(
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         );
-        recyclerHappeningSoon.setAdapter(adapter);
+        recyclerHappeningSoon.setAdapter(happeningSoonAdapter);
     }
 
     private void setupTrending() {
-        List<ActivityItem> items = new ArrayList<>();
+        List<ActivityItem> items = ActivityDataProvider.getTrendingActivities();
 
-        items.add(new ActivityItem(
-                R.drawable.kids_science,
-                "SCIENCE",
-                "Junior Scientists",
-                "Downtown Science Center",
-                "7-12 yrs",
-                "$250/wk",
-                "4.8",
-                "2.3 mi"
-        ));
+        trendingAdapter = new ActivityAdapter(
+                items,
+                item -> refreshFavoriteIcons()
+        );
 
-        items.add(new ActivityItem(
-                R.drawable.kids_art,
-                "ARTS",
-                "Creative Painting Club",
-                "West End Art Room",
-                "6-10 yrs",
-                "$20/class",
-                "4.9",
-                "1.7 mi"
-        ));
-
-        items.add(new ActivityItem(
-                R.drawable.kids_library,
-                "EDUCATION",
-                "Storytime at the Library",
-                "Central Public Library",
-                "3-6 yrs",
-                "Free",
-                "4.7",
-                "2.0 mi"
-        ));
-
-        items.add(new ActivityItem(
-                R.drawable.kids_robotics,
-                "TECHNOLOGY",
-                "Robotics Workshop",
-                "Innovation Hub",
-                "10-14 yrs",
-                "$45",
-                "5.0",
-                "3.1 mi"
-        ));
-
-        items.add(new ActivityItem(
-                R.drawable.kids_sports,
-                "SPORTS",
-                "Kids Basketball Clinic",
-                "Northside Recreation Centre",
-                "8-13 yrs",
-                "$60/program",
-                "4.8",
-                "2.9 mi"
-        ));
-
-        ActivityAdapter adapter = new ActivityAdapter(items);
         recyclerTrending.setLayoutManager(new LinearLayoutManager(requireContext()));
-        recyclerTrending.setAdapter(adapter);
+        recyclerTrending.setAdapter(trendingAdapter);
+    }
+
+    private void refreshFavoriteIcons() {
+        if (trendingAdapter != null) {
+            trendingAdapter.notifyDataSetChanged();
+        }
+
+        if (happeningSoonAdapter != null) {
+            happeningSoonAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
+        refreshFavoriteIcons();
     }
 
     @Override

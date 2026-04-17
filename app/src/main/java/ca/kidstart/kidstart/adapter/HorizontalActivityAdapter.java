@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.kidstart.kidstart.R;
@@ -17,10 +18,26 @@ import ca.kidstart.kidstart.model.ActivityItem;
 
 public class HorizontalActivityAdapter extends RecyclerView.Adapter<HorizontalActivityAdapter.HorizontalViewHolder> {
 
-    private final List<ActivityItem> activityList;
+    public interface OnFavoriteClickListener {
+        void onFavoriteClicked(ActivityItem item);
+    }
+
+    private List<ActivityItem> activityList;
+    private final OnFavoriteClickListener favoriteClickListener;
 
     public HorizontalActivityAdapter(List<ActivityItem> activityList) {
-        this.activityList = activityList;
+        this(activityList, null);
+    }
+
+    public HorizontalActivityAdapter(List<ActivityItem> activityList,
+                                     OnFavoriteClickListener favoriteClickListener) {
+        this.activityList = new ArrayList<>(activityList);
+        this.favoriteClickListener = favoriteClickListener;
+    }
+
+    public void updateList(List<ActivityItem> newList) {
+        this.activityList = new ArrayList<>(newList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -47,6 +64,10 @@ public class HorizontalActivityAdapter extends RecyclerView.Adapter<HorizontalAc
         holder.ivFavorite.setOnClickListener(v -> {
             SavedItemsManager.toggleSaved(item);
             updateHeartIcon(holder.ivFavorite, item);
+
+            if (favoriteClickListener != null) {
+                favoriteClickListener.onFavoriteClicked(item);
+            }
         });
     }
 

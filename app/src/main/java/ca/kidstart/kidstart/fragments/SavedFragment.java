@@ -35,6 +35,9 @@ public class SavedFragment extends Fragment {
         tvEmptySaved = view.findViewById(R.id.tvEmptySaved);
 
         recyclerSaved.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter = new ActivityAdapter(SavedItemsManager.getSavedItems());
+        recyclerSaved.setAdapter(adapter);
+
         loadSavedActivities();
     }
 
@@ -46,9 +49,7 @@ public class SavedFragment extends Fragment {
 
     private void loadSavedActivities() {
         List<ActivityItem> savedItems = SavedItemsManager.getSavedItems();
-
-        adapter = new ActivityAdapter(savedItems);
-        recyclerSaved.setAdapter(adapter);
+        adapter.updateList(savedItems);
 
         if (savedItems.isEmpty()) {
             recyclerSaved.setVisibility(View.GONE);
