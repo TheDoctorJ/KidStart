@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import ca.kidstart.kidstart.activity.LoginActivity;
 import ca.kidstart.kidstart.fragments.DiscoverFragment;
@@ -22,18 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
     private MaterialToolbar topBar;
     private BottomNavigationView bottomNavigationView;
-    private SessionManager sessionManager;
     private TextView tvToolbarTitle;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); sessionManager = new SessionManager(this);
-
-        if (!sessionManager.isLoggedIn()) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
-            return;
-        }
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
