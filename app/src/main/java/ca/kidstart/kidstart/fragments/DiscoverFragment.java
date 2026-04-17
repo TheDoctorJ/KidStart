@@ -21,7 +21,6 @@ import ca.kidstart.kidstart.adapter.ActivityAdapter;
 import ca.kidstart.kidstart.adapter.ChipAdapter;
 import ca.kidstart.kidstart.adapter.FeaturedSliderAdapter;
 import ca.kidstart.kidstart.adapter.HorizontalActivityAdapter;
-import ca.kidstart.kidstart.data.ActivityDataProvider;
 import ca.kidstart.kidstart.model.ActivityItem;
 import ca.kidstart.kidstart.model.ChipItem;
 import ca.kidstart.kidstart.model.FeaturedSlide;
@@ -70,9 +69,9 @@ public class DiscoverFragment extends Fragment {
 
     private void setupFeaturedSlider() {
         List<FeaturedSlide> slideList = new ArrayList<>();
-        slideList.add(new FeaturedSlide(R.drawable.sample_1, "Featured", "Family Adventures This Weekend"));
-        slideList.add(new FeaturedSlide(R.drawable.sample_1, "Popular", "Science Camps Near You"));
-        slideList.add(new FeaturedSlide(R.drawable.sample_1, "Discover", "Creative Classes for Kids"));
+        slideList.add(new FeaturedSlide(R.drawable.kids_sports, "FEATURED", "Weekend Sports for Kids"));
+        slideList.add(new FeaturedSlide(R.drawable.kids_science, "POPULAR", "Top STEM Programs"));
+        slideList.add(new FeaturedSlide(R.drawable.kids_art, "NEW", "Creative Classes Near You"));
 
         FeaturedSliderAdapter adapter = new FeaturedSliderAdapter(slideList);
         viewPagerFeatured.setAdapter(adapter);
@@ -94,9 +93,10 @@ public class DiscoverFragment extends Fragment {
         List<ChipItem> chipList = new ArrayList<>();
         chipList.add(new ChipItem("All", true));
         chipList.add(new ChipItem("Science", false));
-        chipList.add(new ChipItem("Daycare", false));
-        chipList.add(new ChipItem("Education", false));
+        chipList.add(new ChipItem("Arts", false));
         chipList.add(new ChipItem("Sports", false));
+        chipList.add(new ChipItem("Daycare", false));
+        chipList.add(new ChipItem("Technology", false));
 
         ChipAdapter adapter = new ChipAdapter(requireContext(), chipList, position -> {
             RecyclerView.Adapter<?> recyclerAdapter = recyclerChips.getAdapter();
@@ -112,8 +112,40 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void setupHappeningSoon() {
-        List<ActivityItem> items = ActivityDataProvider.getHappeningSoonActivities();
+        List<ActivityItem> items = new ArrayList<>();
 
+        items.add(new ActivityItem(
+                R.drawable.kids_science,
+                "SCIENCE",
+                "Junior Scientists Summer Camp",
+                "Downtown Science Center",
+                "7-12 yrs",
+                "$250/wk",
+                "4.8",
+                "2.3 mi"
+        ));
+
+        items.add(new ActivityItem(
+                R.drawable.kids_art,
+                "ARTS",
+                "Kids Creative Art Studio",
+                "Maple Arts Centre",
+                "5-10 yrs",
+                "$30/class",
+                "4.9",
+                "1.8 mi"
+        ));
+
+        items.add(new ActivityItem(
+                R.drawable.kids_sports,
+                "SPORTS",
+                "Beginner Soccer Camp",
+                "Riverside Field",
+                "6-11 yrs",
+                "$95/program",
+                "4.7",
+                "2.6 mi"
+        ));
         HorizontalActivityAdapter adapter = new HorizontalActivityAdapter(items);
         recyclerHappeningSoon.setLayoutManager(
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -122,7 +154,62 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void setupTrending() {
-        List<ActivityItem> items = ActivityDataProvider.getTrendingActivities();
+        List<ActivityItem> items = new ArrayList<>();
+
+        items.add(new ActivityItem(
+                R.drawable.kids_science,
+                "SCIENCE",
+                "Junior Scientists",
+                "Downtown Science Center",
+                "7-12 yrs",
+                "$250/wk",
+                "4.8",
+                "2.3 mi"
+        ));
+
+        items.add(new ActivityItem(
+                R.drawable.kids_art,
+                "ARTS",
+                "Creative Painting Club",
+                "West End Art Room",
+                "6-10 yrs",
+                "$20/class",
+                "4.9",
+                "1.7 mi"
+        ));
+
+        items.add(new ActivityItem(
+                R.drawable.kids_library,
+                "EDUCATION",
+                "Storytime at the Library",
+                "Central Public Library",
+                "3-6 yrs",
+                "Free",
+                "4.7",
+                "2.0 mi"
+        ));
+
+        items.add(new ActivityItem(
+                R.drawable.kids_robotics,
+                "TECHNOLOGY",
+                "Robotics Workshop",
+                "Innovation Hub",
+                "10-14 yrs",
+                "$45",
+                "5.0",
+                "3.1 mi"
+        ));
+
+        items.add(new ActivityItem(
+                R.drawable.kids_sports,
+                "SPORTS",
+                "Kids Basketball Clinic",
+                "Northside Recreation Centre",
+                "8-13 yrs",
+                "$60/program",
+                "4.8",
+                "2.9 mi"
+        ));
 
         ActivityAdapter adapter = new ActivityAdapter(items);
         recyclerTrending.setLayoutManager(new LinearLayoutManager(requireContext()));

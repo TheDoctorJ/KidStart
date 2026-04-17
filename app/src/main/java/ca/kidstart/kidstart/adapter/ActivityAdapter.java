@@ -13,14 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.kidstart.kidstart.R;
+import ca.kidstart.kidstart.data.SavedItemsManager;
 import ca.kidstart.kidstart.model.ActivityItem;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder> {
 
-    private final List<ActivityItem> activityList;
+    private List<ActivityItem> activityList;
 
     public ActivityAdapter(List<ActivityItem> activityList) {
         this.activityList = new ArrayList<>(activityList);
+    }
+
+    public void updateList(List<ActivityItem> newList) {
+        this.activityList = new ArrayList<>(newList);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,20 +45,29 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         holder.tvCategory.setText(item.getCategory());
         holder.tvTitle.setText(item.getTitle());
         holder.tvLocation.setText(item.getLocation());
-        holder.tvAge.setText(item.getAgeGroup());
+        holder.tvAge.setText(item.getAgeRange());
         holder.tvPrice.setText(item.getPrice());
-        holder.tvRating.setText("⭐ " + item.getRating());
+        holder.tvRating.setText(item.getRating());
+
+        updateHeartIcon(holder.ivFavorite, item);
+
+        holder.ivFavorite.setOnClickListener(v -> {
+            SavedItemsManager.toggleSaved(item);
+            updateHeartIcon(holder.ivFavorite, item);
+        });
+    }
+
+    private void updateHeartIcon(ImageView imageView, ActivityItem item) {
+        if (SavedItemsManager.isSaved(item)) {
+            imageView.setImageResource(R.drawable.ic_heart_filled);
+        } else {
+            imageView.setImageResource(R.drawable.ic_heart_outline);
+        }
     }
 
     @Override
     public int getItemCount() {
         return activityList.size();
-    }
-
-    public void updateList(List<ActivityItem> newItems) {
-        activityList.clear();
-        activityList.addAll(new ArrayList<>(newItems));
-        notifyDataSetChanged();
     }
 
     static class ActivityViewHolder extends RecyclerView.ViewHolder {

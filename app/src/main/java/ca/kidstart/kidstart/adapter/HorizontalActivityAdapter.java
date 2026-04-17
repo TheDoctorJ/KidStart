@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ca.kidstart.kidstart.R;
+import ca.kidstart.kidstart.data.SavedItemsManager;
 import ca.kidstart.kidstart.model.ActivityItem;
 
 public class HorizontalActivityAdapter extends RecyclerView.Adapter<HorizontalActivityAdapter.HorizontalViewHolder> {
@@ -35,11 +36,26 @@ public class HorizontalActivityAdapter extends RecyclerView.Adapter<HorizontalAc
         ActivityItem item = activityList.get(position);
 
         holder.ivImage.setImageResource(item.getImageResId());
-        holder.tvAgeBadge.setText(item.getAgeGroup());
+        holder.tvAgeBadge.setText(item.getAgeRange());
         holder.tvCategory.setText(item.getCategory());
         holder.tvTitle.setText(item.getTitle());
         holder.tvDistance.setText(item.getDistance());
         holder.tvPrice.setText(item.getPrice());
+
+        updateHeartIcon(holder.ivFavorite, item);
+
+        holder.ivFavorite.setOnClickListener(v -> {
+            SavedItemsManager.toggleSaved(item);
+            updateHeartIcon(holder.ivFavorite, item);
+        });
+    }
+
+    private void updateHeartIcon(ImageView imageView, ActivityItem item) {
+        if (SavedItemsManager.isSaved(item)) {
+            imageView.setImageResource(R.drawable.ic_heart_filled);
+        } else {
+            imageView.setImageResource(R.drawable.ic_heart_outline);
+        }
     }
 
     @Override
@@ -48,13 +64,8 @@ public class HorizontalActivityAdapter extends RecyclerView.Adapter<HorizontalAc
     }
 
     static class HorizontalViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivImage;
-        ImageView ivFavorite;
-        TextView tvAgeBadge;
-        TextView tvCategory;
-        TextView tvTitle;
-        TextView tvDistance;
-        TextView tvPrice;
+        ImageView ivImage, ivFavorite;
+        TextView tvAgeBadge, tvCategory, tvTitle, tvDistance, tvPrice;
 
         public HorizontalViewHolder(@NonNull View itemView) {
             super(itemView);
