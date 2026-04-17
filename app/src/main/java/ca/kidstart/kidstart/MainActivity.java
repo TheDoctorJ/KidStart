@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import ca.kidstart.kidstart.fragments.DiscoverFragment;
 import ca.kidstart.kidstart.fragments.ProfileFragment;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MaterialToolbar topBar;
     private BottomNavigationView bottomNavigationView;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
