@@ -1,7 +1,10 @@
 package ca.kidstart.kidstart.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
@@ -31,6 +34,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -374,13 +378,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserInfo() {
-        SessionManager sessionManager = new SessionManager(requireContext());
 
-        String savedName = sessionManager.getUserName();
-        String savedEmail = sessionManager.getUserEmail();
-
+        SharedPreferences preferences = requireActivity().getSharedPreferences("kidstart", MODE_PRIVATE);
+        String savedName = preferences.getString("firstName", "")+ " " +preferences.getString("lastName", "");
         userName.setText(savedName);
-        userEmail.setText(savedEmail);
+        assert mAuth.getCurrentUser() != null;
+        userEmail.setText(mAuth.getCurrentUser().getEmail());
         userNameEdit.setText(savedName);
+
+
     }
 }

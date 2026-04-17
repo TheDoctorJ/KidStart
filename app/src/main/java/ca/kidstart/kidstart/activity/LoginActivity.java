@@ -144,6 +144,10 @@ public class LoginActivity extends AppCompatActivity {
                     // TODO add shared preferences or persistence.
                     if (document.exists() )
                     {
+                        SharedPreferences.Editor editor = getSharedPreferences("kidstart", MODE_PRIVATE).edit();
+                        editor.putString("firstName", document.getString("firstName"));
+                        editor.putString("lastName", document.getString("lastName"));
+                        editor.apply();
                         Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
                         finish();
