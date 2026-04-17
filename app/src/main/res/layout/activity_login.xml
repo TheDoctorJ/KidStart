@@ -1,123 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F7F6FB">
 
-    <LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginHorizontal="20dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/login_graph">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="48dp" />
+    </androidx.fragment.app.FragmentContainerView>
 
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="logo" />
-
-        <TextView
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/scrimBackground"
+        android:visibility="gone"
+        >
+        <com.google.android.material.loadingindicator.LoadingIndicator
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="28dp"
-            android:text="Welcome Back"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="#1E1E1E" />
+            style="@style/Widget.Material3.LoadingIndicator"
+            android:layout_gravity="center"
+            android:clickable="true"
+            />
+    </FrameLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:text="Sign in to access your dashboard,\nprojects, and team updates."
-            android:textSize="16sp"
-            android:textColor="#6B7280" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Email Address"
-            android:textStyle="bold"
-            android:textColor="#444444"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/etLoginEmail"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:background="@android:drawable/edit_text"
-            android:hint="name@example.com"
-            android:inputType="textEmailAddress"
-            android:padding="16dp"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:text="Password"
-            android:textStyle="bold"
-            android:textColor="#444444"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/etLoginPassword"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="10dp"
-            android:background="@android:drawable/edit_text"
-            android:hint="••••••••"
-            android:inputType="textPassword"
-            android:padding="16dp"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="#7C3AED"
-            android:text="Log in"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Don't have an account? "
-                android:textColor="#6B7280"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tvGoSignup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sign up"
-                android:textColor="#7C3AED"
-                android:textStyle="bold"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
