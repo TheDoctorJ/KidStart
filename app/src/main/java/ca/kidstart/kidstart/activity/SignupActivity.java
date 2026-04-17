@@ -2,7 +2,6 @@ package ca.kidstart.kidstart.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,108 +13,85 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ca.kidstart.kidstart.MainActivity;
 import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.utils.SessionManager;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText etName, etEmail, etPassword, etLocation;
+    private EditText etSignupName;
+    private EditText etSignupEmail;
+    private EditText etSignupPassword;
     private Spinner spAgeGroup;
     private Button btnCreateAccount;
     private TextView tvGoLogin;
     private ImageButton btnBack;
-    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        sessionManager = new SessionManager(this);
-
-        etName = findViewById(R.id.etSignupName);
-        etEmail = findViewById(R.id.etSignupEmail);
-        etPassword = findViewById(R.id.etSignupPassword);
-        etLocation = findViewById(R.id.etLocation);
+        etSignupName = findViewById(R.id.etSignupName);
+        etSignupEmail = findViewById(R.id.etSignupEmail);
+        etSignupPassword = findViewById(R.id.etSignupPassword);
         spAgeGroup = findViewById(R.id.spAgeGroup);
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
         tvGoLogin = findViewById(R.id.tvGoLogin);
         btnBack = findViewById(R.id.btnBack);
 
-        String[] ageGroups = {
-                "Toddler (3 - 5 years)",
-                "Child (6 - 8 years)",
-                "Pre-Teen (9 - 12 years)"
+        String[] ageOptions = {
+                "0-3 years (Toddler)",
+                "3-6 years (Preschool)",
+                "7-12 years (Early Elementary)",
+                "10-13 Years (Late Elementary)"
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
-                ageGroups
+                ageOptions
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spAgeGroup.setAdapter(adapter);
 
-        btnCreateAccount.setOnClickListener(v -> createAccount());
+        btnCreateAccount.setOnClickListener(v -> registerUser());
 
         tvGoLogin.setOnClickListener(v -> {
-            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+            startActivity(intent);
             finish();
         });
 
         btnBack.setOnClickListener(v -> finish());
     }
 
-    private void createAccount() {
-        String name = etName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        String location = etLocation.getText().toString().trim();
+    private void registerUser() {
+        String name = etSignupName.getText().toString().trim();
+        String email = etSignupEmail.getText().toString().trim();
+        String password = etSignupPassword.getText().toString().trim();
+        String childAge = spAgeGroup.getSelectedItem().toString();
 
-        if (TextUtils.isEmpty(name)) {
-            etName.setError("Name is required");
-            etName.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Email is required");
-            etEmail.requestFocus();
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("Enter a valid email");
-            etEmail.requestFocus();
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError("Password is required");
-            etPassword.requestFocus();
+            etSignupEmail.setError("Enter a valid email");
             return;
         }
 
         if (password.length() < 6) {
-            etPassword.setError("Password must be at least 6 characters");
-            etPassword.requestFocus();
+            etSignupPassword.setError("Password must be at least 6 characters");
             return;
         }
 
-        if (TextUtils.isEmpty(location)) {
-            etLocation.setError("Location is required");
-            etLocation.requestFocus();
-            return;
-        }
-
-        // test sign up
-        sessionManager.setLogin(true);
-        sessionManager.saveUserInfo(name, email);
+        SessionManager sessionManager = new SessionManager(this);
+        sessionManager.saveUserInfo(name, email, password, childAge);
 
         Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

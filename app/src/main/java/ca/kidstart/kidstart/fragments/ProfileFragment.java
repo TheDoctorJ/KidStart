@@ -57,6 +57,7 @@ public class ProfileFragment extends Fragment {
     private TextInputEditText userNameEdit;
     private ShapeableImageView avatar, avatarEdit;
     private BitmapDrawable committedAvatar;
+    private MaterialTextView userEmail;
 
 
     @Override
@@ -66,16 +67,17 @@ public class ProfileFragment extends Fragment {
 
 
         // Load saved stuff
+        handleEdits();
+        loadUserInfo();
         loadProfilePreferences();
         loadInterestedCategories();
 
-        //
-        handleEdits();
-
         // Buttons
         addInterestButton = fragmentView.findViewById(R.id.add_interest);
-        addInterestButton.setOnClickListener(v -> { showAddInterestMenu(); });
+        addInterestButton.setOnClickListener(v -> showAddInterestMenu());
+
         handleSettingsAndLogoutButtons();
+
 
         return fragmentView;
     }
@@ -111,10 +113,17 @@ public class ProfileFragment extends Fragment {
     private void loadProfilePreferences() {
         AutoCompleteTextView ageAutoComplete = fragmentView.findViewById(R.id.age_autocomplete);
         AutoCompleteTextView distanceAutoComplete = fragmentView.findViewById(R.id.distance_autocomplete);
-        // if (profilePreferences is null) => set default
-        ageAutoComplete.setText(getResources().getStringArray(R.array.age_array)[0], false);
+
+        SessionManager sessionManager = new SessionManager(requireContext());
+        String savedChildAge = sessionManager.getChildAge();
+
+        if (savedChildAge != null && !savedChildAge.isEmpty()) {
+            ageAutoComplete.setText(savedChildAge, false);
+        } else {
+            ageAutoComplete.setText(getResources().getStringArray(R.array.age_array)[0], false);
+        }
+
         distanceAutoComplete.setText(getResources().getStringArray(R.array.distance_array)[0], false);
-        //else => load profilePreferences
     }
 
     /**
@@ -331,18 +340,25 @@ public class ProfileFragment extends Fragment {
     private void handleEdits() {
         profileSummaryCard = fragmentView.findViewById(R.id.profile_summary);
         editProfileCard = fragmentView.findViewById(R.id.profile_edit);
+
         userName = fragmentView.findViewById(R.id.user_name);
+        userEmail = fragmentView.findViewById(R.id.user_email);
         userNameEdit = fragmentView.findViewById(R.id.user_name_edit);
+
         avatar = fragmentView.findViewById(R.id.user_avatar);
         avatarEdit = fragmentView.findViewById(R.id.user_avatar_edit);
+
         editProfileButton = fragmentView.findViewById(R.id.edit_profile);
         applyEditProfileButton = fragmentView.findViewById(R.id.apply_edit_profile);
 
-        editProfileButton.setOnClickListener(v -> { openEditProfile(); });
-        applyEditProfileButton.setOnClickListener(v -> { closeEditProfile(); });
-        avatarEdit.setOnClickListener(v -> pickMedia.launch(new PickVisualMediaRequest.Builder()
-                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                .build()));
+        editProfileButton.setOnClickListener(v -> openEditProfile());
+        applyEditProfileButton.setOnClickListener(v -> closeEditProfile());
+
+        avatarEdit.setOnClickListener(v -> pickMedia.launch(
+                new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build()
+        ));
     }
 
     /**
@@ -352,5 +368,16 @@ public class ProfileFragment extends Fragment {
     private void commitNewAvatar(BitmapDrawable newAvatar) {
         avatarEdit.setImageDrawable(newAvatar);
         committedAvatar = newAvatar;
+    }
+
+    private void loadUserInfo() {
+        SessionManager sessionManager = new SessionManager(requireContext());
+
+        String savedName = sessionManager.getUserName();
+        String savedEmail = sessionManager.getUserEmail();
+
+        userName.setText(savedName);
+        userEmail.setText(savedEmail);
+        userNameEdit.setText(savedName);
     }
 }
