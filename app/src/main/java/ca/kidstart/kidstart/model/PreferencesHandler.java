@@ -13,9 +13,12 @@ import ca.kidstart.kidstart.MainActivity;
 import kotlin.collections.builders.SetBuilder;
 
 public class PreferencesHandler {
+    public static final String UNDEFINED_STRING = "undefined";
     private static PreferencesHandler instance;
     private final String FILE_NAME = "user_preferences";
     private final String SAVED_ACTIVITIES_ID_STRING_SET = "saved_activities";
+    private final String AGE_PREFERENCE = "age_preference";
+    private final String DISTANCE_PREFERENCE = "distance_preference";
     private final SharedPreferences sharedPreferences;
 
     private PreferencesHandler(Context context) {
@@ -29,7 +32,13 @@ public class PreferencesHandler {
     }
 
     public List<InterestCategory> getInterestedCategories() {
-        return null;
+        InterestCategory[] interestCategories = MainActivity.interestCategories;
+        LinkedList<InterestCategory> result = new LinkedList<>();
+        for (int i = 0; i < interestCategories.length; i++) {
+            if (sharedPreferences.contains(interestCategories[i].getName()))
+                result.add(interestCategories[i]);
+        }
+        return result;
     }
 
     public List<ActivityItem> getSavedActivities() {
@@ -48,6 +57,14 @@ public class PreferencesHandler {
         }
 
         return result;
+    }
+
+    public String getAgePreference() {
+        return sharedPreferences.getString(AGE_PREFERENCE,UNDEFINED_STRING);
+    }
+
+    public String getDistancePreference() {
+        return sharedPreferences.getString(DISTANCE_PREFERENCE,UNDEFINED_STRING);
     }
 
     public void setInterestedCategories(List<InterestCategory> interestCategories) {
@@ -83,4 +100,17 @@ public class PreferencesHandler {
 
         editor.apply();
     }
+
+    public void setAgePreference(String age) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(AGE_PREFERENCE, age);
+        editor.apply();
+    }
+
+    public void setDistancePreference(String distance) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DISTANCE_PREFERENCE, distance);
+        editor.apply();
+    }
+
 }

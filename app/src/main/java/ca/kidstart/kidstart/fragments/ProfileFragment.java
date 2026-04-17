@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -26,15 +28,16 @@ import com.google.android.material.circularreveal.cardview.CircularRevealCardVie
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 
 import ca.kidstart.kidstart.MainActivity;
 import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.model.InterestCategory;
+import ca.kidstart.kidstart.model.PreferencesHandler;
 
 public class ProfileFragment extends Fragment {
 
@@ -42,8 +45,7 @@ public class ProfileFragment extends Fragment {
 
     private View fragmentView;
     private MaterialButton addInterestButton;
-    private boolean[] selectedInterests;
-    private boolean editingProfile = false;
+    private List<InterestCategory> selectedInterests;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
 
     // Edit profile stuff
@@ -64,9 +66,11 @@ public class ProfileFragment extends Fragment {
         // Load saved stuff
         loadProfilePreferences();
         loadInterestedCategories();
+        //loadProfile();
 
-        //
+
         handleEdits();
+        handleProfilePreferencesSelections();
 
         // Buttons
         addInterestButton = fragmentView.findViewById(R.id.add_interest);
@@ -107,44 +111,49 @@ public class ProfileFragment extends Fragment {
     private void loadProfilePreferences() {
         AutoCompleteTextView ageAutoComplete = fragmentView.findViewById(R.id.age_autocomplete);
         AutoCompleteTextView distanceAutoComplete = fragmentView.findViewById(R.id.distance_autocomplete);
-        // if (profilePreferences is null) => set default
-        ageAutoComplete.setText(getResources().getStringArray(R.array.age_array)[0], false);
-        distanceAutoComplete.setText(getResources().getStringArray(R.array.distance_array)[0], false);
-        //else => load profilePreferences
+        if (PreferencesHandler.getInstance(getContext()).getAgePreference().equals(PreferencesHandler.UNDEFINED_STRING)) {
+            ageAutoComplete.setText(getResources().getStringArray(R.array.age_array)[0], false);
+            distanceAutoComplete.setText(getResources().getStringArray(R.array.distance_array)[0], false);
+        }
+        else {
+            ageAutoComplete.setText(PreferencesHandler.getInstance(getContext()).getAgePreference(), false);
+            distanceAutoComplete.setText(PreferencesHandler.getInstance(getContext()).getDistancePreference(), false);
+        }
+    }
+
+    /**
+     * Loads interested categories.
+     */
+    private void loadInterestedCategories() {
+        selectedInterests = PreferencesHandler.getInstance(getContext()).getInterestedCategories();
+        for (int i = 0; i < selectedInterests.size(); i++) {
+            addNewInterest(selectedInterests.get(i));
+        }
     }
 
     /**
      * Saves the user's changes when changing their profile preferences.
-     * To do: The actual saving of data.
      */
-    private void setOnChangedProfilePreferences() {
-        TextInputLayout ageDropdown = fragmentView.findViewById(R.id.age_dropdown);
-        TextInputLayout distanceDropdown = fragmentView.findViewById(R.id.distance_dropdown);
+    private void handleProfilePreferencesSelections() {
+        AutoCompleteTextView ageAutocomplete = fragmentView.findViewById(R.id.age_autocomplete);
+        AutoCompleteTextView distanceAutocomplete = fragmentView.findViewById(R.id.distance_autocomplete);
 
-        ageDropdown.setOnClickListener(new View.OnClickListener() {
+        ageAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                // Save
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PreferencesHandler.getInstance(getContext()).setAgePreference(
+                        getResources().getStringArray(R.array.age_array)[position]
+                );
             }
         });
 
-        distanceDropdown.setOnClickListener(new View.OnClickListener() {
+        distanceAutocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                // Save
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PreferencesHandler.getInstance(getContext()).setDistancePreference(
+                        getResources().getStringArray(R.array.distance_array)[position]);
             }
         });
-    }
-
-    /**
-     * Loads the interested categories into the page.
-     * To do: Load saved categories.
-     */
-    private void loadInterestedCategories() {
-        // if (savedCategories == null) => set default
-        selectedInterests = new boolean[MainActivity.interestCategories.length];
-        for (int i = 0; i < selectedInterests.length; i++) selectedInterests[i] = false;
-        // else => load saved categories
     }
 
     /**
@@ -157,7 +166,7 @@ public class ProfileFragment extends Fragment {
 
         // Create a correspondence between interests and menu item ids.
         for (int i = 0; i < MainActivity.interestCategories.length; i++) {
-            if (!selectedInterests[i])
+            if (!selectedInterests.contains(MainActivity.interestCategories[i]))
                 menuItemIds[i] = popup.getMenu().add(0, i, 0, MainActivity.interestCategories[i].getName()).getItemId();
             else
                 menuItemIds[i] = -1;
@@ -170,7 +179,8 @@ public class ProfileFragment extends Fragment {
                 for (int i = 0; i < menuItemIds.length; i++) {
                     if (menuItemIds[i] == item.getItemId()) {
                         addNewInterest(MainActivity.interestCategories[i]);
-                        selectedInterests[i] = true;
+                        selectedInterests.add(MainActivity.interestCategories[i]);
+                        PreferencesHandler.getInstance(getContext()).setInterestedCategories(selectedInterests);
                         return true;
                     }
                 }
@@ -209,19 +219,25 @@ public class ProfileFragment extends Fragment {
         InterestCategoryFragment interestCategoryFragment = new InterestCategoryFragment(interest);
         fragmentTransaction.add(frame.getId(), interestCategoryFragment);
 
-        fragmentTransaction.commitNow();
-
-        // Remove interest button.
-        interestCategoryFragment.getView().findViewById(R.id.remove_interest).setOnClickListener(new View.OnClickListener() {
+        fragmentTransaction.commit();
+        fragmentTransaction.runOnCommit(new Runnable() {
             @Override
-            public void onClick(View v) {
-                fragmentTransaction.remove(interestCategoryFragment);
-                container.removeView(frame);
-                // Allow interest to be selected again.
-                for (int i = 0; i < MainActivity.interestCategories.length; i++) {
-                    if (MainActivity.interestCategories[i] == interest)
-                        selectedInterests[i] = false;
-                }
+            public void run() {
+                // Remove interest button.
+                interestCategoryFragment.getView().findViewById(R.id.remove_interest).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fragmentTransaction.remove(interestCategoryFragment);
+                        container.removeView(frame);
+                        // Allow interest to be selected again.
+                        for (int i = 0; i < MainActivity.interestCategories.length; i++) {
+                            if (MainActivity.interestCategories[i] == interest) {
+                                selectedInterests.remove(MainActivity.interestCategories[i]);
+                                PreferencesHandler.getInstance(getContext()).setInterestedCategories(selectedInterests);
+                            }
+                        }
+                    }
+                });
             }
         });
     }
@@ -269,7 +285,6 @@ public class ProfileFragment extends Fragment {
      * Shows the views to edit the profile and hides the regular profile summary.
      */
     private void openEditProfile() {
-        editingProfile = true;
         profileSummaryCard.setVisibility(View.GONE);
         editProfileCard.setVisibility(View.VISIBLE);
     }
@@ -279,7 +294,6 @@ public class ProfileFragment extends Fragment {
      * To do: Save changes
      */
     private void closeEditProfile() {
-        editingProfile = false;
         profileSummaryCard.setVisibility(View.VISIBLE);
         editProfileCard.setVisibility(View.GONE);
 
