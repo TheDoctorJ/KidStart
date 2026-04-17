@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.kidstart.kidstart.R;
@@ -19,7 +20,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
     private final List<ActivityItem> activityList;
 
     public ActivityAdapter(List<ActivityItem> activityList) {
-        this.activityList = activityList;
+        this.activityList = new ArrayList<>(activityList);
     }
 
     @NonNull
@@ -38,7 +39,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
         holder.tvCategory.setText(item.getCategory());
         holder.tvTitle.setText(item.getTitle());
         holder.tvLocation.setText(item.getLocation());
-        holder.tvAge.setText(item.getAgeRange());
+        holder.tvAge.setText(item.getAgeGroup());
         holder.tvPrice.setText(item.getPrice());
         holder.tvRating.setText("⭐ " + item.getRating());
     }
@@ -46,6 +47,12 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
     @Override
     public int getItemCount() {
         return activityList.size();
+    }
+
+    public void updateList(List<ActivityItem> newItems) {
+        activityList.clear();
+        activityList.addAll(new ArrayList<>(newItems));
+        notifyDataSetChanged();
     }
 
     static class ActivityViewHolder extends RecyclerView.ViewHolder {

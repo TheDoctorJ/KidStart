@@ -20,10 +20,11 @@ import ca.kidstart.kidstart.R;
 import ca.kidstart.kidstart.adapter.ActivityAdapter;
 import ca.kidstart.kidstart.adapter.ChipAdapter;
 import ca.kidstart.kidstart.adapter.FeaturedSliderAdapter;
+import ca.kidstart.kidstart.adapter.HorizontalActivityAdapter;
+import ca.kidstart.kidstart.data.ActivityDataProvider;
 import ca.kidstart.kidstart.model.ActivityItem;
 import ca.kidstart.kidstart.model.ChipItem;
 import ca.kidstart.kidstart.model.FeaturedSlide;
-import ca.kidstart.kidstart.adapter.HorizontalActivityAdapter;
 
 public class DiscoverFragment extends Fragment {
 
@@ -111,37 +112,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void setupHappeningSoon() {
-        List<ActivityItem> items = new ArrayList<>();
-        items.add(new ActivityItem(
-                R.drawable.sample_1,
-                "SCIENCE",
-                "Junior Scientists Summer",
-                "Downtown Science Center",
-                "7-12 yrs",
-                "$250/wk",
-                "4.8",
-                "2.3 mi"
-        ));
-        items.add(new ActivityItem(
-                R.drawable.sample_1,
-                "DAYCARE",
-                "Little Learners Daycare",
-                "Maple Street Studio",
-                "0-3 yrs",
-                "$1,200/mo",
-                "4.9",
-                "1.5 mi"
-        ));
-        items.add(new ActivityItem(
-                R.drawable.sample_1,
-                "EDUCATION",
-                "Storytime at the Library",
-                "Central Public Library",
-                "3-6 yrs",
-                "Free",
-                "4.7",
-                "2.0 mi"
-        ));
+        List<ActivityItem> items = ActivityDataProvider.getHappeningSoonActivities();
 
         HorizontalActivityAdapter adapter = new HorizontalActivityAdapter(items);
         recyclerHappeningSoon.setLayoutManager(
@@ -151,11 +122,7 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void setupTrending() {
-        List<ActivityItem> items = new ArrayList<>();
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "SCIENCE", "Junior Scientists", "Downtown Science Center", "7-12 yrs", "$250/wk", "4.8", "2.3 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "DAYCARE", "Little Learners Daycare", "Maple Street Studio", "0-3 yrs", "$1,200/mo", "4.9", "1.5 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "EDUCATION", "Storytime at the Library", "Central Public Library", "3-6 yrs", "Free", "4.7", "2.0 mi"));
-        items.add(new ActivityItem(R.drawable.sm_sample_1, "TECHNOLOGY", "Robotics Workshop", "Innovation Hub", "10-14 yrs", "$45", "5.0", "3.1 mi"));
+        List<ActivityItem> items = ActivityDataProvider.getTrendingActivities();
 
         ActivityAdapter adapter = new ActivityAdapter(items);
         recyclerTrending.setLayoutManager(new LinearLayoutManager(requireContext()));

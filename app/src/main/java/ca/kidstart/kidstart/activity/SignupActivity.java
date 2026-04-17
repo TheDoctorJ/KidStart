@@ -119,14 +119,4 @@ public class SignupActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-
-    /* logout
-    * SessionManager sessionManager = new SessionManager(this);
-sessionManager.logout();
-
-Intent intent = new Intent(CurrentActivity.this, LoginActivity.class);
-startActivity(intent);
-finish();
-    * */
 }

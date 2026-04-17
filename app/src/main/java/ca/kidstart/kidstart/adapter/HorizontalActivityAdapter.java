@@ -35,7 +35,7 @@ public class HorizontalActivityAdapter extends RecyclerView.Adapter<HorizontalAc
         ActivityItem item = activityList.get(position);
 
         holder.ivImage.setImageResource(item.getImageResId());
-        holder.tvAgeBadge.setText(item.getAgeRange());
+        holder.tvAgeBadge.setText(item.getAgeGroup());
         holder.tvCategory.setText(item.getCategory());
         holder.tvTitle.setText(item.getTitle());
         holder.tvDistance.setText(item.getDistance());
