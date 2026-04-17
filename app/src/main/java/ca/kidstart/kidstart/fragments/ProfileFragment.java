@@ -30,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -58,6 +59,9 @@ public class ProfileFragment extends Fragment {
     private ShapeableImageView avatar, avatarEdit;
     private BitmapDrawable committedAvatar;
     private MaterialTextView userEmail;
+
+    // FireBase
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
     @Override
@@ -284,16 +288,11 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SessionManager sessionManager = new SessionManager(requireContext());
-                sessionManager.logout();
-
-                Intent intent = new Intent(requireActivity(), LoginActivity.class);
-                startActivity(intent);
-                requireActivity().finish();
-            }
+        logoutButton.setOnClickListener(v -> {
+            mAuth.signOut();
+            Intent intent = new Intent(requireActivity(), LoginActivity.class);
+            startActivity(intent);
+            requireActivity().finish();
         });
     }
     /**
