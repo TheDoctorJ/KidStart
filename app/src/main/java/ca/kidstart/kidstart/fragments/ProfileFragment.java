@@ -31,6 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -61,6 +62,7 @@ public class ProfileFragment extends Fragment {
 
     // FireBase
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @Override
@@ -119,6 +121,9 @@ public class ProfileFragment extends Fragment {
         ageAutoComplete.setText(getResources().getStringArray(R.array.age_array)[0], false);
         distanceAutoComplete.setText(getResources().getStringArray(R.array.distance_array)[0], false);
         //else => load profilePreferences
+        MaterialTextView email = fragmentView.findViewById(R.id.user_email);
+        assert mAuth.getCurrentUser() != null;
+        email.setText(mAuth.getCurrentUser().getEmail());
     }
 
     /**
