@@ -19,7 +19,8 @@ public class ActivityDataProvider {
                 "7-12 yrs",
                 "$250/wk",
                 "4.8",
-                "2.3 mi"
+                "2.3 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
@@ -30,7 +31,8 @@ public class ActivityDataProvider {
                 "3-6 yrs",
                 "$20/mo",
                 "4.9",
-                "1.7 mi"
+                "1.7 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
@@ -41,7 +43,8 @@ public class ActivityDataProvider {
                 "3-6 yrs",
                 "Free",
                 "4.7",
-                "2.0 mi"
+                "2.0 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
@@ -52,7 +55,8 @@ public class ActivityDataProvider {
                 "10-14 yrs",
                 "$45",
                 "5.0",
-                "3.1 mi"
+                "3.1 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
         items.add(new ActivityItem(
@@ -63,7 +67,8 @@ public class ActivityDataProvider {
                 "7-12 yrs",
                 "$60/wk",
                 "4.8",
-                "2.9 mi"
+                "2.9 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
 
@@ -75,7 +80,8 @@ public class ActivityDataProvider {
                 "7-12 yrs",
                 "$310/wk",
                 "4.9",
-                "1.9 mi"
+                "1.9 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
 
@@ -87,7 +93,8 @@ public class ActivityDataProvider {
                 "10-14 yrs",
                 "$330/wk",
                 "5.0",
-                "4.1 mi"
+                "4.1 mi",
+                "A fun hands-on science class where children explore simple experiments, creativity, and teamwork in a safe learning environment."
         ));
 
 

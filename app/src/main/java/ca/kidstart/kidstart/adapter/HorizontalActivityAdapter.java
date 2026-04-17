@@ -1,5 +1,6 @@
 package ca.kidstart.kidstart.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.kidstart.kidstart.R;
+import ca.kidstart.kidstart.activity.DetailActivity;
 import ca.kidstart.kidstart.data.SavedItemsManager;
 import ca.kidstart.kidstart.model.ActivityItem;
 
@@ -68,6 +70,20 @@ public class HorizontalActivityAdapter extends RecyclerView.Adapter<HorizontalAc
             if (favoriteClickListener != null) {
                 favoriteClickListener.onFavoriteClicked(item);
             }
+        });
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra("imageRes", item.getImageResId());
+            intent.putExtra("category", item.getCategory());
+            intent.putExtra("title", item.getTitle());
+            intent.putExtra("location", item.getLocation());
+            intent.putExtra("ageRange", item.getAgeRange());
+            intent.putExtra("price", item.getPrice());
+            intent.putExtra("rating", item.getRating());
+            intent.putExtra("distance", item.getDistance());
+            intent.putExtra("description", item.getDescription());
+            v.getContext().startActivity(intent);
         });
     }
 

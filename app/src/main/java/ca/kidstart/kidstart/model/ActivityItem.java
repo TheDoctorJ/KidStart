@@ -11,9 +11,10 @@ public class ActivityItem {
     private final String price;
     private final String rating;
     private final String distance;
+    private final String detail;
 
     public ActivityItem(int imageResId, String category, String title, String location,
-                        String ageRange, String price, String rating, String distance) {
+                        String ageRange, String price, String rating, String distance, String detail) {
         this.imageResId = imageResId;
         this.category = category;
         this.title = title;
@@ -22,6 +23,7 @@ public class ActivityItem {
         this.price = price;
         this.rating = rating;
         this.distance = distance;
+        this.detail = detail;
     }
 
     public int getImageResId() {
@@ -78,6 +80,9 @@ public class ActivityItem {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+    public String getDescription() {
+        return detail;
     }
 
     @Override
