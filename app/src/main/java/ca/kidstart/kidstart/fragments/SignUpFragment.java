@@ -96,6 +96,7 @@ public class SignUpFragment extends Fragment {
         // Redirect user to main activity
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+        requireActivity().finish();
 
 
     }
