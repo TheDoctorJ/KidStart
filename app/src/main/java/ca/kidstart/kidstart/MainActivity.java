@@ -1,6 +1,8 @@
 package ca.kidstart.kidstart;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MaterialToolbar topBar;
     private BottomNavigationView bottomNavigationView;
+    private InternetReceiver internetReceiver;
     private TextView tvToolbarTitle;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -63,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
             return false;
         });
+
+
+        // Sneaky receiver registration, runs on main thread. Only 10 lines so should be fine.
+        internetReceiver = new InternetReceiver();
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        registerReceiver(internetReceiver, intentFilter);
+
     }
     private void loadFragment(Fragment fragment, String title) {
         getSupportFragmentManager()
@@ -70,4 +80,13 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.tab_frame_layout, fragment)
                 .commit();
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Unregister the receiver
+        unregisterReceiver(internetReceiver);
+    }
+
 }

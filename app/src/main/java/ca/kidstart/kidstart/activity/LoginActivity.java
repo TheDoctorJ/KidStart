@@ -1,9 +1,12 @@
 package ca.kidstart.kidstart.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -26,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
+import ca.kidstart.kidstart.InternetReceiver;
 import ca.kidstart.kidstart.MainActivity;
 import ca.kidstart.kidstart.R;
 
@@ -37,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     String appLinkAction;
     Uri appLinkData;
     NavController navController;
+    BroadcastReceiver internetBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,10 @@ public class LoginActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+        // Airplane broadcast receiver
+        internetBroadcastReceiver = new InternetReceiver();
+        registerReceiver(internetBroadcastReceiver, new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED));
+
 
     }
 
@@ -82,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+
     }
 
     @Override
@@ -93,6 +103,18 @@ public class LoginActivity extends AppCompatActivity {
         appLinkAction = appLinkIntent.getAction();
         appLinkData = appLinkIntent.getData();
 
+        // Sneaky addition to check airplane mode:
+        // defeats purpose of broadcast receiver but need to check state when app starts.
+        int airplaneMode = Settings.System.getInt(getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0);
+        if(Objects.equals(appLinkIntent.getAction(), "AIRPLANE_MODE_ON") || airplaneMode == 1)
+        {
+            findViewById(R.id.loading_overlay).setVisibility(View.VISIBLE);
+            return;
+        }
+        else if(Objects.equals(appLinkIntent.getAction(), "AIRPLANE_MODE_OFF")){
+            findViewById(R.id.loading_overlay).setVisibility(View.GONE);
+        }
+
         // If the user is logged in redirect them to the main activity.
         if (mAuth.getCurrentUser() != null)
         {
@@ -102,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         {
             checkSignInOrSignUp();
         }
+
     }
 
     private void checkSignInOrSignUp() {
@@ -158,5 +181,11 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(internetBroadcastReceiver);
     }
 }
